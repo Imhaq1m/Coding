@@ -1,0 +1,153 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.kafeel-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.kafeel-header {
+    width: 30%;
+    padding: 30px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 8px 0 0 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.kafeel-header p {
+    margin: 0;
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.kafeel-body {
+    width: 70%;
+    padding: 30px;
+}
+
+.kafeel-label {
+    font-size: 18px;
+    font-weight: lighter;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Options Buttons */
+.kafeel-options {
+    flex: 1;
+    padding: 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    background: #f1f1f1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option-selected {
+    background: #4CAF50;
+    color: white;
+}
+
+.kafeel-options:hover {
+    background: #ddd;
+}
+
+/* Sponsor Amount Section */
+.kafeel-sponsor-label {
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#kafeel-sponsor-text {
+    flex: 1;
+    padding: 10px;
+    font-size: 24px;
+    border: 2px solid #4CAF50;
+    border-radius: 4px;
+}
+
+/* Form Inputs */
+.kafeel-items {
+    flex: 1;
+    padding: 12px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.kafeel-items.email {
+    flex: 100%;
+}
+
+/* Name Inputs Container */
+.kafeel-container.name-container {
+    display: flex;
+    gap: 10px;
+}
+
+/* Terms and Amount Section */
+#terms {
+    float: left;
+    color: #666;
+}
+
+#amount {
+    float: right;
+    font-weight: bold;
+}
+
+/* Sponsor Button */
+.kafeel-btn-sponsor {
+    width: 100%;
+    padding: 15px;
+    background: #ff9900;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.kafeel-btn-sponsor:hover {
+    background: #ffca68;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .kafeel-container {
+        flex-direction: column;
+    }
+
+    .kafeel-header {
+        width: 100%;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .kafeel-body {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .kafeel-options {
+        flex: 100%;
+        margin: 5px 0;
+    }
+}

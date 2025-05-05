@@ -1,0 +1,21 @@
+<!--Example: using fetch. To run this program, follow the instructions in the exercise folder-->
+<!DOCTYPE html>
+<html>
+
+<body>
+  <div id="foo">
+    <h2>Using fetch API</h2>
+    <button type="button" onclick="changeContent()"> Change Content</button>
+    <div id="result"></div>
+  </div>
+  <script>
+    async function changeContent() {
+      let file = "content.txt";
+      let myObject = await fetch(file);
+      let myText = await myObject.text();
+      document.getElementById("result").textContent = myText;
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+body{
+    width: 90%;
+    max-width: 900px;
+    margin: 2em auto;
+    font: 0.9em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+header{
+    border-radius: 50px;
+    padding: 10px;
+    background-color: rgb(207, 232,220);
+}
+header h1{
+    position: relative;
+    text-align: center;
+}
+footer{
+    border-radius: 5px;
+    background-color: yellow;
+}
+aside{background-color: beige; padding: 1em;}
+
+/* GRID02*/
+
+.container{
+    display: grid;
+    gap: 20px;
+    grid-template-areas: 
+    "head head head head"
+    "navi navi navi navi"
+    "content content content side"
+    "foot foot foot foot"
+    ;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+}
+/*header{
+    grid-area: head;
+}
+nav{
+    grid-area: navi;
+}
+article{
+    grid-area: content;
+}
+aside{
+    grid-area: side;
+}
+footer{
+    grid-area: foot;
+}*/

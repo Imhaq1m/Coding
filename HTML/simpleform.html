@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--simple form without styling-->
+    <form action="/my-handling-form-page" method="post">
+        <ul>
+            <li>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="user_name" />
+            </li>
+            <li>
+                <label for="mail">Email:</label>
+                <input type="email" id="mail" name="user_email" />
+            </li>
+            <li>
+                <label for="msg">Message:</label>
+                <textarea id="msg" name="user_message"></textarea>
+            </li>
+            <li class="button">
+                <button type="submit">
+                    Send your message
+                </button>
+            </li>
+        </ul>
+
+    </form>
+    <form>
+        <fieldset>
+            <legend>Fruit juice size</legend>
+            <p>
+                <input type="radio" name="size" id="size_1" value="small" />
+                <label for="size_1">Small</label>
+            </p>
+            <p>
+                <input type="radio" name="size" id="size_2" value="medium" />
+                <label for="size_2">Medium</label>
+            </p>
+            <p>
+                <input type="radio" name="size" id="size_3" value="large" />
+                <label for="size_3">Large</label>
+            </p>
+        </fieldset>
+    </form>
+    <p>Required fields are followed by <span aria-label="required">*</span>.</p>
+    <label for="username">
+        <span>Name:</span>
+        <input id="username" type="text" name="username" required>
+        <span aria-label="required">*</span>
+    </label>
+    <!-- But this is probably best: -->
+    <div> <label for="username">Name: <span aria-label="required">*</span></label>
+        <input id="username" type="text" name="username" required />
+    </div>
+    <form>
+        <fieldset>
+            <legend>Choose all the vegetables you like to eat</legend>
+            <ul>
+                <li>
+                    <label for="carrots">Carrots</label>
+                    <input type="checkbox" id="carrots" name="vegetable" value="carrots" checked />
+                </li>
+                <li>
+                    <label for="peas">Peas</label>
+                    <input type="checkbox" id="peas" name="vegetable" value="peas" />
+                </li>
+                <li>
+                    <label for="cabbage">Cabbage</label>
+                    <input type="checkbox" id="cabbage" name="vegetable" value="cabbage" />
+                </li>
+            </ul>
+        </fieldset>
+
+    </form>
+
+</body>
+
+</html>
