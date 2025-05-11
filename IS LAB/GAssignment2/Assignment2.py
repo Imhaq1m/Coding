@@ -53,24 +53,24 @@ X_train, X_test, y_train, y_test = train_test_split(
 # model = LogisticRegression(max_iter=1000, random_state=42)
 knn_model = KNeighborsClassifier(n_neighbors=5, weights='distance')
 
+'''
 mlp_model = MLPClassifier(hidden_layer_sizes=(
     100,), max_iter=1000)
-'''
 '''
 print(df['results'].value_counts())
 cv_knnscores = cross_val_score(
     knn_model, X_scaled, y, cv=5)  # Cross-validation 5 times
 
+'''
 cv_mlpscores = cross_val_score(
     mlp_model, X_scaled, y, cv=5)  # Cross-validation 5 times
-'''
 '''
 print(
     f"Cross-validation Accuracy (KNN): {cv_knnscores.mean():.4f} +/- {cv_knnscores.std():.4f}")
 
+'''
 print(
     f"Cross-validation Accuracy (MLP): {cv_mlpscores.mean():.4f} +/- {cv_mlpscores.std():.4f}")
-'''
 '''
 knn_model.fit(X_train, y_train)
 
@@ -83,6 +83,7 @@ print(f'KNN Accuracy: {kaccuracy * 100:.2f}%')
 print("KNN Confusion Matrix:")
 print(confusion_matrix(y_test, knn_y_pred))
 
+'''
 mlp_model.fit(X_train, y_train)
 
 mlp_y_pred = mlp_model.predict(X_test)
@@ -93,5 +94,4 @@ print(f'MLP Accuracy: {maccuracy * 100:.2f}%')
 
 print("MLP Confusion Matrix:")
 print(confusion_matrix(y_test, mlp_y_pred))
-'''
 '''
