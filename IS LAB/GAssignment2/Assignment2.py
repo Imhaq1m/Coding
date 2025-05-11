@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split, cross_val_score
 # from sklearn.ensemble import RandomForestClassifier
 # from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
-# from sklearn.neural_network import MLPClassifier
+from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 df = pd.read_csv("results.csv")
@@ -44,7 +44,7 @@ X_scaled = scaler.fit_transform(X)
 
 # 80% data used for training, and 20% for testing
 X_train, X_test, y_train, y_test = train_test_split(
-    X_scaled, y, test_size=0.2, random_state=42
+    X_scaled, y, test_size=0.2 
 )
 
 # max_depth=5 limits the complexity to prevent overfitting
@@ -52,22 +52,25 @@ X_train, X_test, y_train, y_test = train_test_split(
 # model = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)
 # model = LogisticRegression(max_iter=1000, random_state=42)
 knn_model = KNeighborsClassifier(n_neighbors=5, weights='distance')
-'''
+
 mlp_model = MLPClassifier(hidden_layer_sizes=(
-    100,), max_iter=1000, random_state=42)
+    100,), max_iter=1000)
+'''
 '''
 print(df['results'].value_counts())
 cv_knnscores = cross_val_score(
     knn_model, X_scaled, y, cv=5)  # Cross-validation 5 times
-'''
+
 cv_mlpscores = cross_val_score(
     mlp_model, X_scaled, y, cv=5)  # Cross-validation 5 times
 '''
-print(
-    f"Cross-validation Accuracy (KNN): {cv_knnscores.mean():.4f} +/- {cv_knnscores.std():.4f}")
 '''
 print(
+    f"Cross-validation Accuracy (KNN): {cv_knnscores.mean():.4f} +/- {cv_knnscores.std():.4f}")
+
+print(
     f"Cross-validation Accuracy (MLP): {cv_mlpscores.mean():.4f} +/- {cv_mlpscores.std():.4f}")
+'''
 '''
 knn_model.fit(X_train, y_train)
 
@@ -80,7 +83,6 @@ print(f'KNN Accuracy: {kaccuracy * 100:.2f}%')
 print("KNN Confusion Matrix:")
 print(confusion_matrix(y_test, knn_y_pred))
 
-'''
 mlp_model.fit(X_train, y_train)
 
 mlp_y_pred = mlp_model.predict(X_test)
@@ -91,4 +93,5 @@ print(f'MLP Accuracy: {maccuracy * 100:.2f}%')
 
 print("MLP Confusion Matrix:")
 print(confusion_matrix(y_test, mlp_y_pred))
+'''
 '''
