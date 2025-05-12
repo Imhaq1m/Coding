@@ -44,7 +44,7 @@ X_scaled = scaler.fit_transform(X)
 
 # 80% data used for training, and 20% for testing
 X_train, X_test, y_train, y_test = train_test_split(
-    X_scaled, y, test_size=0.2 
+    X_scaled, y, test_size=0.2, random_state=42 
 )
 
 # max_depth=5 limits the complexity to prevent overfitting
@@ -55,7 +55,7 @@ knn_model = KNeighborsClassifier(n_neighbors=5, weights='distance')
 
 '''
 mlp_model = MLPClassifier(hidden_layer_sizes=(
-    100,), max_iter=1000)
+    100,), max_iter=1000, random_state = 42)
 '''
 print(df['results'].value_counts())
 cv_knnscores = cross_val_score(
