@@ -1,4 +1,6 @@
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split, cross_val_score
 # from sklearn.tree import DecisionTreeClassifier
@@ -75,6 +77,7 @@ print(
 knn_model.fit(X_train, y_train)
 
 knn_y_pred = knn_model.predict(X_test)
+
 print("\nKNN Classification Report:")
 print(classification_report(y_test, knn_y_pred))
 kaccuracy = accuracy_score(y_test, knn_y_pred)
@@ -82,6 +85,8 @@ print(f'KNN Accuracy: {kaccuracy * 100:.2f}%')
 
 print("KNN Confusion Matrix:")
 print(confusion_matrix(y_test, knn_y_pred))
+
+
 
 '''
 mlp_model.fit(X_train, y_train)
