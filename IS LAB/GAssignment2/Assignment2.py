@@ -86,8 +86,6 @@ print(f'KNN Accuracy: {kaccuracy * 100:.2f}%')
 print("KNN Confusion Matrix:")
 print(confusion_matrix(y_test, knn_y_pred))
 
-
-
 '''
 mlp_model.fit(X_train, y_train)
 

@@ -17,18 +17,17 @@ smote = SMOTE(random_state=42)
 X_resampled, y_resampled = smote.fit_resample(X_train, y_train)
 
 model = MultinomialNB()
+model.fit(X_train, y_train)
 model.fit(X_resampled, y_resampled)
 pred = model.predict(X_test)
 
+print("spam sample:", y[y==1].shape[0])
+print("ham sample:", y[y==0].shape[0])
+print("spam sample:", y_resampled[y_resampled==1].shape[0])
+print("ham sample:", y_resampled[y_resampled==0].shape[0])
 print("Accuracy:", accuracy_score(y_test, pred))
 print("Confusion matrix:\n", confusion_matrix(y_test, pred))
 print("Classification Report:\n", classification_report(y_test, pred))
-
-sns.countplot(x=y)
-plt.title('Class Distribution (0 = Ham, 1 = Spam)')
-plt.xlabel('Class')
-plt.ylabel('Count')
-plt.show()
 
 cm = confusion_matrix(y_test, pred)
 plt.figure(figsize=(6,4))
