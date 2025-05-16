@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from imblearn.over_sampling import SMOTE
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -10,11 +11,13 @@ X = df.iloc[:, 1:-1]
 y = df.iloc[:, -1]
 
 X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2
+        X, y, test_size=0.2, random_state = 42
         )
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X_train, y_train)
 
 model = MultinomialNB()
-model.fit(X_train, y_train)
+model.fit(X_resampled, y_resampled)
 pred = model.predict(X_test)
 
 print("Accuracy:", accuracy_score(y_test, pred))
@@ -33,13 +36,4 @@ sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Ham', 'Spam'], 
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.title('Confusion Matrix')
-plt.show()
-
-plt.figure(figsize=(8,5))
-sns.histplot(y_scores[y_test == 0], bins=30, alpha=0.5, label='Ham', color='blue')
-sns.histplot(y_scores[y_test == 1], bins=30, alpha=0.5, label='Spam', color='red')
-plt.title('Prediction Probability Distributions')
-plt.xlabel('Predicted Probability of Spam')
-plt.ylabel('Frequency')
-plt.legend()
 plt.show()
