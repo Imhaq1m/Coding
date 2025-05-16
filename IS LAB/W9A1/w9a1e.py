@@ -24,6 +24,8 @@ text = ["The weather is great today!", "I love programming in Python.",
 # Tokenization (splitting the text into words)
 tokens = [word_tokenize(doc) for doc in text]
 
+print(tokens)
+
 # Remove stopwords
 stop_words = set(stopwords.words('english'))
 filtered_tokens = [[word for word in doc if word.lower() not in stop_words] for doc in tokens]
