@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Example</title>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js "></script>
+    <style>
+        /* Optional: Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .additional-content {
+            display: none; /* Initially hide the additional content */
+        }
+        a {
+            color: black;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>What is jQuery?</h2>
+    <p>jQuery is a fast, small, and feature-rich JavaScript library.</p>
+    <a href="#" id="more-link">More</a>
+
+    <!-- Additional content to be toggled -->
+    <div class="additional-content">
+        <p>It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers.</p>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Part (c): Use slideToggle('fast') to slide the content in/out with a 'fast' duration
+            $('#more-link').click(function(event) {
+                event.preventDefault();
+                $('.additional-content').slideToggle('fast');
+            });
+            /*
+            // Part (b): Use fadeToggle(1000) to fade the content in/out over 1000 milliseconds
+            $('#more-link').click(function(event) {
+                event.preventDefault();
+                $('.additional-content').fadeToggle(1000);
+            });
+            // Part (a): Use toggle() to display or hide the selected elements
+            $('#more-link').click(function(event) {
+                event.preventDefault(); // Prevent the default link behavior
+                $('.additional-content').toggle();
+            });
+            
+            */
+        });
+    </script>
+
+</body>
+</html>

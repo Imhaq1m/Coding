@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>CSS01</title>
+	<style>
+		body {
+			font-size: 80%;
+			font-family: 'Courier New', Courier, monospace;
+			letter-spacing: 0.15em;
+			background-color: yellow;
+		}
+
+		#page {
+			max-width: 940px;
+			border: 4px double black;
+			padding: 20px;
+			margin: 10px auto 10px auto;
+			background-color: #ffffff;
+		}
+
+		#logo {
+			width: 150px;
+			margin: 10px auto 10px auto;
+		}
+
+		ul {
+			width: 570px;
+			border-top: 2px solid black;
+			border-bottom: 1px solid black;
+			margin: 0px auto 0px auto;
+			text-align: center;
+		}
+
+		li {
+			display: inline;
+			margin: 0px 3px;
+			padding: 5px;
+		}
+
+		p {
+			width: 600px;
+			margin: 20px auto 20px auto;
+			text-align: center;
+		}
+
+		a {
+			color: black;
+			text-decoration: none;
+			text-transform: uppercase;
+			padding: 6px 10px 5px 10px;
+			font-weight: normal;
+		}
+
+		a:hover {
+			color: red;
+			background-color: black;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="page">
+		<div id="logo">
+			<img src="images/logo.gif" alt="The Analog Specialists" />
+		</div>
+		<ul id="navigation">
+			<li><a href="#" class="on">Home</a></li>
+			<li><a href="#">For Sale</a></li>
+			<li><a href="#">Repairs</a></li>
+			<li><a href="#">About</a></li>
+			<li><a href="#">Contact</a></li>
+		</ul>
+		<p>
+			<img src="images/keys.jpg" alt="Fender Rhodes, Hohner Clavinet, and Wurlitzer EP200" />
+		</p>
+		<p>
+			We specialize in the sale and repair of classic keyboards, in particular the Fender Rhodes, Wurlitzer EP200,
+			and Hohner Clavinet.
+		</p>
+	</div>
+</body>
+
+</html>

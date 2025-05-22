@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pre-Login Page with Animation</title>
+  <style>
+    /* General Reset */
+    body, h1, button {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Full-page Background */
+    body {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Logo Styling */
+    .logo {
+      font-size: 4rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Tagline Styling */
+    .tagline {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+      opacity: 0.9;
+    }
+
+    /* Button Styling */
+    .btn {
+      background-color: white;
+      color: #6e8efb;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #f0f0f0;
+      transform: scale(1.05);
+    }
+
+    .btn + .btn {
+      margin-left: 15px;
+    }
+
+    /* Animation for Sliding In */
+    @keyframes slideIn {
+      0% {
+        transform: translateX(-200%); /* Start off-screen to the left */
+      }
+      100% {
+        transform: translateX(0); /* Slide into the center */
+      }
+    }
+
+    /* Animation for Fading Out */
+    @keyframes fadeOut {
+      0% {
+        opacity: 1; /* Fully visible */
+      }
+      100% {
+        opacity: 0; /* Fully transparent */
+      }
+    }
+
+    /* Apply Animations to Container */
+    .container {
+      animation: slideIn 1s ease-in-out, fadeOut 1s ease-in-out 2s forwards; /* Slide in, then fade out */
+    }
+  </style>
+</head>
+<body>
+  <!-- Content -->
+  <div class="container">
+    <div class="logo">MyWebsite</div>
+    <div class="tagline">Welcome to your new experience</div>
+    <div class="buttons">
+      <button class="btn">Log In</button>
+      <button class="btn">Sign Up</button>
+    </div>
+  </div>
+
+  <!-- Redirect to Login Page After Animation -->
+  <script>
+    // Redirect to the login page after 3 seconds (animation duration + delay)
+    setTimeout(() => {
+      window.location.href = "login.html"; // Replace with your login page URL
+    }, 3000); // 3000ms = 3 seconds
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!--index-kafalah.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafalah</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+    <!--"kafeel-header" will be on left side and "kafeel-body" will be on right-->
+    <form class="kafeel-container" name="kafalah-form">
+        <!-- Sidebar (Left Column) -->
+        <div class="kafeel-header"> <p>KAFALAH PROGRAM</p>
+            </div>
+        <!--Main Content (Right Column)-->
+        <div class="kafeel-body">
+                <br>
+                <div class="kafeel-label">I want to sponsor</div>
+                <br>
+            
+                <div class="kafeel-container">
+                    <!--Button once and monthly need to be side by side and must span fully to right side-->
+                    <button class="kafeel-options" id="kafeel-once">Once</button>
+                    <button class="kafeel-options option-selected" id="kafeel-monthly">Monthly</button>
+                </div>
+
+                <br>
+                <div class="kafeel-container label-text">
+                    <!--"RM" must be left side and the textfield for sponsor text is just right beside the "RM"-->
+                    <span class="kafeel-sponsor-label">RM </span>
+                    <input type="text" id="kafeel-sponsor-text" class="kafeel-items" placeholder="Sponsor any amount" required>
+                    <br><br><br>
+                </div>
+                
+                <br><br>
+                <div class="kafeel-label">My information</div><br>
+                <div class="kafeel-container"><br>
+                    <!--First name is on the left side and the last name is on the right side. It must be side by side-->
+                    <input type="text" class="kafeel-items" name="fName" placeholder="First Name" required>
+                    <input type="text" class="kafeel-items" name="lName" placeholder="Last Name" required>
+                </div>
+                <br>
+                <div class="kafeel-container">
+                    <input type="text" class="kafeel-items email" name="email" placeholder="Email" required>        
+                </div>
+                <br><br>
+                <div class="kafeel-container">
+                    <!--"terms" must be on left side and amount must be on left right side-->
+                    <div id="terms"></div> 
+                    <div id="amount"></div><br>
+                    
+                </div>
+                <div class="kafeel-container"></div>
+                    <button class="kafeel-btn-sponsor" id="kafeel-btn-sponsor">Sponsor</button>
+                </div>
+                <br><br><br><br>
+            </div>
+     
+        </div>
+
+    </form>
+   
+    
+</body>
+</html>

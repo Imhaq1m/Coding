@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js "></script>
+</head>
+
+<body>
+    <label for="int1">Enter your first integer </label>
+    <input type="text" name="int1" id="int1">
+    <br>
+    <label for="int2">Enter your second integer</label>
+    <input type="text" name="int2" id="int2">
+    <br>
+    <button type="button" id="addBtn">Add</button>
+    <button type="button" id="subBtn">Subtract</button>
+    <button type="button" id="mulBtn">Multiply</button>
+    <button type="button" id="divBtn">Divide</button>
+    <p id="result"></p>
+
+    <script>
+        // Attach click event handlers using jQuery
+        $(document).ready(function () {
+            // Add button click handler
+            $('#addBtn').on('click', function () {
+                let num1 = Number($('#int1').val());
+                let num2 = Number($('#int2').val());
+                let add = num1 + num2;
+                $('#result').text(`${num1} + ${num2} = ${add}`);
+            });
+
+            // Subtract button click handler
+            $('#subBtn').on('click', function () {
+                let num1 = Number($('#int1').val());
+                let num2 = Number($('#int2').val());
+                let sub = num1 - num2;
+                $('#result').text(`${num1} - ${num2} = ${sub}`);
+            });
+
+            // Multiply button click handler
+            $('#mulBtn').on('click', function () {
+                let num1 = Number($('#int1').val());
+                let num2 = Number($('#int2').val());
+                let mul = num1 * num2;
+                $('#result').text(`${num1} * ${num2} = ${mul}`);
+            });
+
+            // Divide button click handler
+            $('#divBtn').on('click', function () {
+                let num1 = Number($('#int1').val());
+                let num2 = Number($('#int2').val());
+                if (num2 === 0) {
+                    $('#result').text("Error: Division by zero is not allowed.");
+                    return;
+                }
+                let div = num1 / num2;
+                $('#result').text(`${num1} / ${num2} = ${div}`);
+            });
+        });
+    </script>
+</body>
+
+</html>

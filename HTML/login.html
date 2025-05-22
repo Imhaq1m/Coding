@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=j, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <form>
+        <fieldset>
+            <legend>Login</legend>
+            <div>
+                <label for="username">Name: <span aria-label="required">*</span></label>
+                <input id="username" type="text" name="username" required />
+            </div>
+            <div>
+                <label for="password">Password: <span aria-label="required">*</span></label>
+                <input id="password" type="password" name="password" 
+                    pattern="^(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,20}$" 
+                    title="Password must contain at least one digit from 0-9, one special character, and be 8-20 characters long."
+                    required />
+            </div>
+            <br>
+            <!-- Reset and Submit buttons -->
+            <button type="reset"><strong>Reset</strong></button>
+            <button type="submit"><strong>Login</strong></button>
+        </fieldset>
+    </form>
+</body>
+
+</html>
