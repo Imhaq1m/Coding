@@ -46,7 +46,7 @@ X_scaled = scaler.fit_transform(X)
 
 # 80% data used for training, and 20% for testing
 X_train, X_test, y_train, y_test = train_test_split(
-    X_scaled, y, test_size=0.2, random_state=42 
+    X_scaled, y, test_size=0.2, random_state=42
 )
 
 # max_depth=5 limits the complexity to prevent overfitting

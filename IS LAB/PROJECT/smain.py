@@ -1,4 +1,5 @@
 import string
+import math
 import pandas as pd
 import numpy as np
 import nltk
@@ -8,6 +9,7 @@ import seaborn as sns
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics import precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split, cross_validate, cross_val_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
@@ -32,6 +34,8 @@ stemmer = PorterStemmer()
 stopwords_set = set(stopwords.words('english'))
 
 # Function to preprocess text
+
+
 def preprocess_text(text):
     # Convert to lowercase
     text = text.lower()
@@ -40,9 +44,11 @@ def preprocess_text(text):
     # Tokenize (split into words)
     words = text.split()
     # Remove stopwords and apply stemming
-    cleaned_words = [stemmer.stem(word) for word in words if word not in stopwords_set]
+    cleaned_words = [stemmer.stem(word)
+                     for word in words if word not in stopwords_set]
     # Join words back into a sentence
     return ' '.join(cleaned_words)
+
 
 # Apply preprocessing to all emails
 print("Preprocessing text data...")
@@ -55,49 +61,109 @@ y = df['label_num']  # Labels (0 = ham, 1 = spam)
 
 # Split into training and test sets
 print("Splitting data into training and testing sets...")
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
 
 models = {
-    "Logistic Regression": LogisticRegression(max_iter=1000),  # Increase max_iter for convergence
+    # Increase max_iter for convergence
+    "Logistic Regression": LogisticRegression(max_iter=1000),
     "Naive Bayes": MultinomialNB(),
-    "Support Vector Machine": SVC(kernel='linear'),  # Linear kernel works well with text
+    # Linear kernel works well with text
+    "Support Vector Machine": SVC(kernel='linear'),
     "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
     "K-Nearest Neighbors": KNeighborsClassifier(n_neighbors=5),
-    "MLP (Neural Network)": MLPClassifier(hidden_layer_sizes=(64,), max_iter=1000, random_state=42)
+    "MLP (Neural Network)": MLPClassifier(hidden_layer_sizes=(16,), max_iter=100, random_state=42)
 }
 
-print("Training model...")
+# List to store model performance
+performance = []
+
 for name, model in models.items():
-    print('##########################################################')
-    print("Evaluating model...")
+    print(f"Evaluating: {name}")
     # Train the model
     model.fit(X_train, y_train)
-    # Evaluate the model
-    scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
-    # Print mean and standard deviation of accuracy
-    print(f"{name}: Accuracy = {scores.mean():.4f} ± {scores.std():.4f}")
-    # Detailed performance report
+
+    # Predict on test set
     y_pred = model.predict(X_test)
+
+    # Calculate metrics
     accuracy = accuracy_score(y_test, y_pred)
-    print(f"Model Accuracy {name}: {accuracy:.4f}")
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
 
-    print(f"\nClassification Report ({name}):")
-    print(classification_report(y_test, y_pred))
+    # Save to performance list
+    performance.append({
+        'Model': name,
+        'Accuracy': accuracy,
+        'Precision': precision,
+        'Recall': recall,
+        'F1 Score': f1
+    })
+    print(f"Evaluating {name} completed")
 
-    print(f"\nConfusion Matrix ({name}):")
+# Convert to DataFrame
+df_performance = pd.DataFrame(performance)
+
+
+# Set up the plot
+metrics = ['Accuracy', 'Precision', 'Recall', 'F1 Score']
+model_names = df_performance['Model']
+
+x = np.arange(len(model_names))  # label locations
+width = 0.2  # width of the bars
+
+fig, ax = plt.subplots(figsize=(14, 8))
+
+# Create bars for each metric
+rects = []
+for i, metric in enumerate(metrics):
+    rects.append(
+        ax.bar(x + i*width, df_performance[metric], width, label=metric))
+
+# Add labels, title, and legend
+ax.set_xlabel('Models')
+ax.set_ylabel('Scores')
+ax.set_title('Model Comparison: Accuracy, Precision, Recall, and F1 Score')
+ax.set_xticks(x + width*1.5)
+ax.set_xticklabels(model_names)
+ax.legend()
+
+# Rotate x-labels for readability
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.ylim(0.9, 1.0)  # Zoom in on high scores
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.show()
+
+
+# Number of models
+n_models = len(models)
+n_cols = 3
+n_rows = math.ceil(n_models / n_cols)
+
+# Set up the figure
+fig, axes = plt.subplots(n_rows, n_cols, figsize=(18, 10))
+axes = axes.flatten()  # Flatten to easily loop through
+
+for idx, (name, model) in enumerate(models.items()):
+    y_pred = model.predict(X_test)
     cm = confusion_matrix(y_test, y_pred)
-    print(cm)
-    print('##########################################################')
 
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=axes[idx],
+                xticklabels=['Ham', 'Spam'], yticklabels=['Ham', 'Spam'])
+    axes[idx].set_title(f'{name} CM')
+    axes[idx].set_xlabel('Predicted')
+    axes[idx].set_ylabel('Actual')
 
-'''
-# Plot Confusion Matrix
-plt.figure(figsize=(6,5))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Ham', 'Spam'], yticklabels=['Ham', 'Spam'])
-plt.xlabel('Predicted')
-plt.ylabel('Actual')
-plt.title('Confusion Matrix')
-plt.show()'''
+# Hide any extra subplots
+for idx in range(len(models), len(axes)):
+    fig.delaxes(axes[idx])
+
+plt.tight_layout()
+plt.suptitle('Confusion Matrices for All Models', y=1.02)
+plt.show()
+
 
 # Plot Feature Importances (Only for Random Forest)
 rf_model = models["Random Forest"]
@@ -107,8 +173,9 @@ feature_names = vectorizer.get_feature_names_out()
 indices = np.argsort(importances)[::-1]
 top_n = 20
 
-plt.figure(figsize=(10,6))
-sns.barplot(x=importances[indices[:top_n]], y=feature_names[indices[:top_n]], palette="viridis")
+plt.figure(figsize=(10, 6))
+sns.barplot(x=importances[indices[:top_n]],
+            y=feature_names[indices[:top_n]], palette="viridis")
 plt.title(f'Top {top_n} Most Important Words (Random Forest)')
 plt.xlabel('Importance')
 plt.ylabel('Words')
