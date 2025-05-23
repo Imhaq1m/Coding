@@ -10,6 +10,7 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import precision_score, recall_score, f1_score
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split, cross_validate, cross_val_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
@@ -71,8 +72,8 @@ models = {
     # Linear kernel works well with text
     "Support Vector Machine": SVC(kernel='linear'),
     "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
-    "K-Nearest Neighbors": KNeighborsClassifier(n_neighbors=5),
-    "MLP (Neural Network)": MLPClassifier(hidden_layer_sizes=(16,), max_iter=100, random_state=42)
+    "MLP (Neural Network)": MLPClassifier(hidden_layer_sizes=(16,), max_iter=1000, random_state=42),
+    "K-Nearest Neighbors": KNeighborsClassifier(n_neighbors=5)
 }
 
 # List to store model performance
@@ -80,6 +81,7 @@ performance = []
 
 for name, model in models.items():
     print(f"Evaluating: {name}")
+
     # Train the model
     model.fit(X_train, y_train)
 
@@ -132,7 +134,7 @@ ax.legend()
 # Rotate x-labels for readability
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.ylim(0.9, 1.0)  # Zoom in on high scores
+plt.ylim(0.6, 1.0)  # Zoom in on high scores
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.show()
 
