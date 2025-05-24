@@ -1,57 +1,101 @@
 #include <bits/stdc++.h>
+#include <vector>
 using namespace std;
 
-#define ll long long
-#define MOD 1000000007
-#define endl "\n"
+// === TYPEDEFS AND CONSTANTS ===
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double ld;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<pii> vpii;
+typedef vector<pll> vpll;
+typedef map<int, int> mii;
+typedef map<ll, ll> mll;
 
-// Efficient prime checking function
-bool isPrime(ll num) {
-    if (num <= 1) return false;
-    if (num <= 3) return true; 
-    if (num % 2 == 0 || num % 3 == 0) return false;
-    for (ll i = 5; i * i <= num; i += 6) {
-        if (num % i == 0 || num % (i + 2) == 0) return false;
-    }
-    return true;
+const int MOD = 1000000007;
+const int MOD2 = 998244353;
+const double EPS = 1e-9;
+const double PI = acos(-1);
+const ll INF = 1000000001;
+const ll LINF = 1000000000000000001;
+
+// === FAST I/O ===
+void fast_io() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
 }
 
-ll factorialMod(ll n) {
-    ll res = 1;
-    for (ll i = 2; i <= n; i++) {
-        res = (res * i) % MOD;
-    }
-    return res;
-}
+// === MACROS ===
+#define pb push_back
+#define mp make_pair
+#define fi first
+#define se second
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define sz(x) (int)(x).size()
+#define rep(i, a, b) for (int i = a; i < b; ++i)
+#define repr(i, a, b) for (int i = a; i >= b; --i)
+#define getunique(v)                                                           \
+  {                                                                            \
+    sort(all(v));                                                              \
+    v.erase(unique(all(v)), v.end());                                          \
+  }
 
 void solve() {
-    ll n;
-    cin >> n;
+  ll n, m, l = 0, h = 0;
+  cin >> n >> m;
+  vl a(n);
+  rep(i, 0, n) cin >> a[i];
+  rep(i, 0, n) {
+    l = max(l, a[i]);
+    h += a[i];
+  }
 
-    if (!isPrime(n)) {
-        cout << "NO" << endl;
-        return;
+  ll ans = h;
+  while (l <= h) {
+    ll mid = (l + h) / 2;
+    ll c = 1, curr = 0;
+    bool can = false;
+    rep(i, 0, (ll)a.size()) {
+      if (a[i] > mid) {
+        can = false;
+        break;
+      } else if (curr + a[i] > mid) {
+        c++;
+        curr = a[i];
+        if (c > m) {
+          can = false;
+          break;
+        }
+      } else {
+        curr += a[i];
+      }
     }
-
-    string num = to_string(n);
-    string revNum = num;
-    reverse(revNum.begin(), revNum.end());
-    if (num != revNum) {
-        cout << "NO" << endl;
-        return;
+    if (c <= m)
+      can = true;
+    else
+      can = false;
+    if (can) {
+      ans = mid;
+      h = mid - 1;
+    } else {
+      l = mid + 1;
     }
-
-    cout << factorialMod(n) << endl;
+  }
+  cout << ans << endl;
 }
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    ll t = 1;
-    while (t--) {
-        solve();
-    }
-
-    return 0;
+  fast_io();
+  int t;
+  t = 1;
+  // cin >> t;
+  for (int i = 1; i <= t; i++) {
+    solve();
+  }
+  return 0;
 }
