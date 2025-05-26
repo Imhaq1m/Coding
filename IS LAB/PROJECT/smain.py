@@ -69,7 +69,6 @@ models = {
     # Increase max_iter for convergence
     "Logistic Regression": LogisticRegression(max_iter=1000),
     "Naive Bayes": MultinomialNB(),
-    # Linear kernel works well with text
     "Support Vector Machine": SVC(kernel='linear'),
     "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
     "MLP (Neural Network)": MLPClassifier(hidden_layer_sizes=(16,), max_iter=1000, random_state=42),
@@ -80,7 +79,14 @@ models = {
 performance = []
 
 for name, model in models.items():
-    print(f"Evaluating: {name}")
+    # print(f"Evaluating: {name}")
+    print(f"Evaluating: {name} with cross-validation")
+
+    # Perform 5-fold cross-validation
+    cv_scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
+
+    # Record cross-validated accuracy
+    accuracy_cv = cv_scores.mean()
 
     # Train the model
     model.fit(X_train, y_train)
@@ -98,6 +104,7 @@ for name, model in models.items():
     performance.append({
         'Model': name,
         'Accuracy': accuracy,
+        'CV Accuracy': accuracy_cv,
         'Precision': precision,
         'Recall': recall,
         'F1 Score': f1
@@ -109,7 +116,7 @@ df_performance = pd.DataFrame(performance)
 
 
 # Set up the plot
-metrics = ['Accuracy', 'Precision', 'Recall', 'F1 Score']
+metrics = ['CV Accuracy', 'Accuracy', 'Precision', 'Recall', 'F1 Score']
 model_names = df_performance['Model']
 
 x = np.arange(len(model_names))  # label locations
