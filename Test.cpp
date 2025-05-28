@@ -1,101 +1,62 @@
 #include <bits/stdc++.h>
-#include <vector>
 using namespace std;
 
-// === TYPEDEFS AND CONSTANTS ===
-typedef long long ll;
-typedef unsigned long long ull;
-typedef long double ld;
-typedef pair<int, int> pii;
-typedef pair<ll, ll> pll;
-typedef vector<int> vi;
-typedef vector<ll> vl;
-typedef vector<pii> vpii;
-typedef vector<pll> vpll;
-typedef map<int, int> mii;
-typedef map<ll, ll> mll;
+const int MOD = 1e9 + 7;
+const int MAXN = 1005;
 
-const int MOD = 1000000007;
-const int MOD2 = 998244353;
-const double EPS = 1e-9;
-const double PI = acos(-1);
-const ll INF = 1000000001;
-const ll LINF = 1000000000000000001;
+long long comb[MAXN][MAXN]; // comb[n][k] = n choose k mod MOD
 
-// === FAST I/O ===
-void fast_io() {
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
-  cout.tie(NULL);
-}
-
-// === MACROS ===
-#define pb push_back
-#define mp make_pair
-#define fi first
-#define se second
-#define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
-#define sz(x) (int)(x).size()
-#define rep(i, a, b) for (int i = a; i < b; ++i)
-#define repr(i, a, b) for (int i = a; i >= b; --i)
-#define getunique(v)                                                           \
-  {                                                                            \
-    sort(all(v));                                                              \
-    v.erase(unique(all(v)), v.end());                                          \
-  }
-
-void solve() {
-  ll n, m, l = 0, h = 0;
-  cin >> n >> m;
-  vl a(n);
-  rep(i, 0, n) cin >> a[i];
-  rep(i, 0, n) {
-    l = max(l, a[i]);
-    h += a[i];
-  }
-
-  ll ans = h;
-  while (l <= h) {
-    ll mid = (l + h) / 2;
-    ll c = 1, curr = 0;
-    bool can = false;
-    rep(i, 0, (ll)a.size()) {
-      if (a[i] > mid) {
-        can = false;
-        break;
-      } else if (curr + a[i] > mid) {
-        c++;
-        curr = a[i];
-        if (c > m) {
-          can = false;
-          break;
-        }
-      } else {
-        curr += a[i];
-      }
-    }
-    if (c <= m)
-      can = true;
-    else
-      can = false;
-    if (can) {
-      ans = mid;
-      h = mid - 1;
-    } else {
-      l = mid + 1;
+// Precompute combination table using dynamic programming
+void precompute_comb() {
+  for (int n = 0; n < MAXN; n++) {
+    comb[n][0] = 1;
+    comb[n][n] = 1;
+    for (int k = 1; k < n; k++) {
+      comb[n][k] = (comb[n - 1][k - 1] + comb[n - 1][k]) % MOD;
     }
   }
-  cout << ans << endl;
 }
 
 int main() {
-  fast_io();
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+
+  precompute_comb();
+
   int t;
-  t = 1;
-  // cin >> t;
-  for (int i = 1; i <= t; i++) {
-    solve();
+  cin >> t;
+
+  while (t--) {
+    int n, m;
+    cin >> n >> m;
+    vector<int> v(n);
+    for (int &x : v)
+      cin >> x;
+
+    // Step 1: Sort descending
+    sort(v.rbegin(), v.rend());
+
+    // Step 2: Store frequency of each value in top m
+    map<int, int> freq_top;
+    for (int i = 0; i < m; i++) {
+      freq_top[v[i]]++;
+    }
+
+    // Step 3: Count how many times each value appears in full list
+    map<int, int> freq_all;
+    for (int x : v) {
+      freq_all[x]++;
+    }
+
+    // Step 4: Multiply combinations
+    long long ans = 1;
+    for (auto [val, needed] : freq_top) {
+      int total = freq_all[val];
+      ans = ans * comb[total][needed] % MOD;
+    }
+
+    cout << ans << "\n";
   }
+
   return 0;
 }
