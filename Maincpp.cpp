@@ -45,45 +45,28 @@ void fast_io() {
     v.erase(unique(all(v)), v.end());                                          \
   }
 
-vl fact = {0, 1};
-
 void solve() {
-  ll m, n;
-  cin >> m >> n;
-  ll c = n;
-  vl a;
-  vl freq(1000);
-  rep(i, 0, m) {
-    ll t;
-    cin >> t;
-    if (find(a.begin(), a.end(), t) == a.end())
-      a.pb(t);
-    freq[t]++;
+  ll a, b;
+  cin >> a >> b;
+  vl v(101);
+  vl f(101, 0);
+  if (b == 0) {
+    cout << "-1\n";
+    return;
   }
-  sort(a.rbegin(), a.rend());
-  cout << "Reversed sort done" << endl;
-  ll idx = 0;
-  while (c > 0 && idx < m) {
-    cout << "Current: " << a[idx] << " and freq: " << freq[a[idx]] << endl;
-    if (c <= freq[a[idx]]) {
-      c -= freq[a[idx]];
-      cout << "Done Dollar" << endl;
-    } else {
-      c -= freq[a[idx]];
-      idx++;
-      cout << "New Dollar" << endl;
+  ll mx = 1;
+  rep(i, 0, b) {
+    ll x, p;
+    cin >> x >> p;
+    v[p] = max(v[p], x);
+    f[p]++;
+    mx = max(mx, f[p]);
+  }
+  set<ll> s;
+  rep(i, mx, 101) {
+    if (f[mx] == 0) {
     }
-    cout << "c: " << c << endl;
   }
-  cout << "Type: " << idx + 1 << endl;
-  ll ans = 1;
-  rep(i, 0, idx + 1) {
-    cout << "Curr ele: " << a[i] << endl;
-    cout << "Fact: " << fact[freq[a[i]]] << endl;
-    ans = ((ans * fact[freq[a[i]]]) + MOD) % MOD;
-    cout << "Curr ans: " << ans << endl;
-  }
-  cout << ans << endl;
 }
 
 int main() {
@@ -91,7 +74,6 @@ int main() {
   int t;
   // t = 1;
   cin >> t;
-  rep(i, 2, 20) { fact.pb(fact[i - 1] * i); }
   for (int i = 1; i <= t; i++) {
     solve();
   }

@@ -1,61 +1,50 @@
 #include <bits/stdc++.h>
+#include <cmath>
+#include <iostream>
+#include <set>
+#include <vector>
+
 using namespace std;
 
-const int MOD = 1e9 + 7;
-const int MAXN = 1005;
+int main() {
+  int a, b;
+  cin >> a >> b;
 
-long long comb[MAXN][MAXN]; // comb[n][k] = n choose k mod MOD
+  vector<pair<int, int>> known(b);
+  for (int i = 0; i < b; ++i) {
+    cin >> known[i].first >> known[i].second;
+  }
 
-// Precompute combination table using dynamic programming
-void precompute_comb() {
-  for (int n = 0; n < MAXN; n++) {
-    comb[n][0] = 1;
-    comb[n][n] = 1;
-    for (int k = 1; k < n; k++) {
-      comb[n][k] = (comb[n - 1][k - 1] + comb[n - 1][k]) % MOD;
+  set<int> possible_c;
+
+  // Try all possible number of chests per level from 1 to 100
+  for (int c = 1; c <= 100; ++c) {
+    bool valid = true;
+    for (auto [x, p] : known) {
+      int expected_level = ceil((double)x / c);
+      if (expected_level != p) {
+        valid = false;
+        break;
+      }
+    }
+    if (valid) {
+      possible_c.insert(c);
     }
   }
-}
 
-int main() {
-  ios::sync_with_stdio(false);
-  cin.tie(nullptr);
+  // Now calculate possible levels for chest a
+  vector<int> possible_levels;
+  for (int c : possible_c) {
+    int level = ceil((double)a / c);
+    if (find(possible_levels.begin(), possible_levels.end(), level) ==
+        possible_levels.end())
+      possible_levels.push_back(level);
+  }
 
-  precompute_comb();
-
-  int t;
-  cin >> t;
-
-  while (t--) {
-    int n, m;
-    cin >> n >> m;
-    vector<int> v(n);
-    for (int &x : v)
-      cin >> x;
-
-    // Step 1: Sort descending
-    sort(v.rbegin(), v.rend());
-
-    // Step 2: Store frequency of each value in top m
-    map<int, int> freq_top;
-    for (int i = 0; i < m; i++) {
-      freq_top[v[i]]++;
-    }
-
-    // Step 3: Count how many times each value appears in full list
-    map<int, int> freq_all;
-    for (int x : v) {
-      freq_all[x]++;
-    }
-
-    // Step 4: Multiply combinations
-    long long ans = 1;
-    for (auto [val, needed] : freq_top) {
-      int total = freq_all[val];
-      ans = ans * comb[total][needed] % MOD;
-    }
-
-    cout << ans << "\n";
+  if (possible_levels.size() == 1) {
+    cout << possible_levels[0] << endl;
+  } else {
+    cout << -1 << endl;
   }
 
   return 0;
