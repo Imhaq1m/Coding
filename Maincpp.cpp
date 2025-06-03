@@ -46,34 +46,39 @@ void fast_io() {
   }
 
 void solve() {
-  ll a, b;
-  cin >> a >> b;
-  vl v(101);
-  vl f(101, 0);
-  if (b == 0) {
-    cout << "-1\n";
-    return;
+  ll p, q;
+  cin >> p >> q;
+  ll midy = floor(q / 2);
+  cout << "Midy: " << midy << endl;
+  ll midx = (-1 * (p * (midy - q)));
+  cout << "Midx: " << midx << endl;
+  ll ans = midx * ((2 * midy) + (midx - 1)) / 2;
+  cout << "ans: " << ans << endl;
+  ll c = midx + 1;
+  cout << "c: " << c << endl;
+  // rep(i, 0, midx) {
+  // ans += (midx * ((2 * midy) + (midx - 1)) / 2) - c;
+  // c += midx + 1;
+  //}
+  ans = 0;
+  vector<ll> v(midx + 1);
+
+  rep(i, 0, midx + 2) {
+    ans += i;
+    v[i] = ans;
+    // cout << "ans: " << ans << endl;
   }
-  ll mx = 1;
-  rep(i, 0, b) {
-    ll x, p;
-    cin >> x >> p;
-    v[p] = max(v[p], x);
-    f[p]++;
-    mx = max(mx, f[p]);
-  }
-  set<ll> s;
-  rep(i, mx, 101) {
-    if (f[mx] == 0) {
-    }
-  }
+  ans = v[midx] * (midy + 1) + v[midy] * (midx + 1);
+  cout << midx + 1 << " " << v[midx + 1] << endl;
+  cout << midy + 1 << " " << v[midy + 1] << endl;
+  cout << "ans: " << ans << endl;
 }
 
 int main() {
   fast_io();
   int t;
-  // t = 1;
-  cin >> t;
+  t = 1;
+  // cin >> t;
   for (int i = 1; i <= t; i++) {
     solve();
   }
