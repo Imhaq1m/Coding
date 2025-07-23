@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Page Title</title>
+  <style>
+    h1 {
+      text-align: center;
+      color: white;
+    }
+
+    .container {
+      display: flex;
+      border-radius: 5px;
+      border: 2px solid green;
+      width: 100%;
+    }
+
+    .left {
+      flex: 1;
+      background: green;
+    }
+
+    .right {
+      flex: 2;
+      padding: 1em;
+    }
+
+    .first {
+      grid-row: 1;
+      text-align: center;
+    }
+
+    .second {
+      display: grid;
+      grid-row: 2;
+      grid-template-columns: 1fr 1fr;
+
+    }
+
+    .once {
+      grid-coluumn: 1;
+      border: 1px solid grey;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .Monthly {
+      grid-coluumn: 2;
+      border: 1px solid black;
+      color: white;
+      background: green;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .third {
+      grid-row: 3;
+
+    }
+
+    #amount {
+      border: 2px solid green;
+      padding: 10px;
+    }
+
+    .fourth {
+      grid-row: 4;
+      text-align: center;
+    }
+
+    .fifth {
+      grid-row: 5;
+      display: flex;
+      gap: 20px;
+    }
+
+    #fn {
+      padding: 10px;
+      border: 2px solid green;
+    }
+
+    #ln {
+      padding: 10px;
+      border: 2px solid green;
+    }
+
+    .sixth {
+      grid-row: 6;
+      grid-column: 1/span 2;
+    }
+
+    #mail {
+      padding: 10px;
+      border: 2px solid green;
+    }
+
+    .seventh {
+      grid-row: 7;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      background: gold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="left">
+      <h1>KAFALAH PROGRAM</h1>
+    </div>
+    <div class="right">
+      <div class="first">I want to sponsor</div>
+      <div class="second">
+        <div class="once">Once</div>
+        <div class="Monthly">Monthly</div>
+      </div>
+      <div class="third">
+        <label for="amount">RM</label>
+        <input type="text" id="amount" placeholder="Sponsor any amount" />
+      </div>
+      <div class="fourth">My informmation</div>
+      <div class="fifth">
+        <input type="text" id="fn" placeholder="First Name" />
+        <input type="text" id="ln" placeholder="Last Name" />
+      </div>
+      <div class="sixth">
+        <input type="email" id="mail" placeholder="Email" />
+      </div>
+      <div class="seventh">
+        <div class="sponsor">Sponsor</div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

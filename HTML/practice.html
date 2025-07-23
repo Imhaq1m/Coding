@@ -1,108 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pre-Login Page with Animation</title>
+  <title>Semantic HTML Example</title>
   <style>
-    /* General Reset */
-    body, h1, button {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
+    body {
+      background-color: lightblue;
     }
 
-    /* Full-page Background */
-    body {
-      background: linear-gradient(135deg, #6e8efb, #a777e3);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    #css {
       color: white;
       text-align: center;
-      overflow: hidden;
     }
 
-    /* Logo Styling */
-    .logo {
-      font-size: 4rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    p {
+      font-family: verdana;
+      font-size: 20px;
     }
 
-    /* Tagline Styling */
-    .tagline {
-      font-size: 1.5rem;
-      margin-bottom: 40px;
-      opacity: 0.9;
+    html {
+      font-family: sans-serif;
     }
 
-    /* Button Styling */
-    .btn {
-      background-color: white;
-      color: #6e8efb;
-      border: none;
-      padding: 12px 30px;
-      font-size: 1rem;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
+    table {
+      border-collapse: collapse;
+      border: 2px solid rgb(200, 200, 200);
+      letter-spacing: 1px;
+      font-size: 0.8rem;
     }
 
-    .btn:hover {
-      background-color: #f0f0f0;
-      transform: scale(1.05);
+    td,
+    th {
+      border: 1px solid rgb(190, 190, 190);
+      padding: 10px 20px;
     }
 
-    .btn + .btn {
-      margin-left: 15px;
+    th {
+      background-color: rgb(235, 235, 235);
     }
 
-    /* Animation for Sliding In */
-    @keyframes slideIn {
-      0% {
-        transform: translateX(-200%); /* Start off-screen to the left */
-      }
-      100% {
-        transform: translateX(0); /* Slide into the center */
-      }
+    td {
+      text-align: center;
     }
 
-    /* Animation for Fading Out */
-    @keyframes fadeOut {
-      0% {
-        opacity: 1; /* Fully visible */
-      }
-      100% {
-        opacity: 0; /* Fully transparent */
-      }
+    tr:nth-child(even) td {
+      background-color: rgb(250, 250, 250);
     }
 
-    /* Apply Animations to Container */
-    .container {
-      animation: slideIn 1s ease-in-out, fadeOut 1s ease-in-out 2s forwards; /* Slide in, then fade out */
+    tr:nth-child(odd) td {
+      background-color: rgb(245, 245, 245);
+    }
+
+    caption {
+      padding: 10px;
     }
   </style>
-</head>
-<body>
-  <!-- Content -->
-  <div class="container">
-    <div class="logo">MyWebsite</div>
-    <div class="tagline">Welcome to your new experience</div>
-    <div class="buttons">
-      <button class="btn">Log In</button>
-      <button class="btn">Sign Up</button>
-    </div>
-  </div>
 
-  <!-- Redirect to Login Page After Animation -->
-  <script>
-    // Redirect to the login page after 3 seconds (animation duration + delay)
-    setTimeout(() => {
-      window.location.href = "login.html"; // Replace with your login page URL
-    }, 3000); // 3000ms = 3 seconds
-  </script>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>My Website</h1>
+    <p>Welcome to my awesome site!</p>
+  </header>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <h1 id="css">My First CSS Example</h1>
+  <p>This is a paragraph.</p>
+
+
+  <!-- Main Content Area -->
+  <main>
+
+    <!-- Section inside main -->
+    <section aria-labelledby="latest-posts">
+      <h2 id="latest-posts">Latest Posts</h2>
+
+      <!-- Article representing a blog post -->
+      <article>
+        <h3>Understanding Semantic HTML</h3>
+        <p>Semantic HTML helps structure web pages in a meaningful way...</p>
+      </article>
+
+      <article>
+        <h3>Web Accessibility Tips</h3>
+        <p>Learn how to make your website more accessible for all users...</p>
+      </article>
+
+    </section>
+
+    <!-- Sidebar (often placed inside main or aside global) -->
+    <aside>
+      <h4>About Me</h4>
+      <p>I'm a web developer passionate about clean and semantic code.</p>
+    </aside>
+
+    <h1>Simple table</h1>
+    <table>
+      <tr>
+        <td>Hi, I'm your first cell.</td>
+        <td>I'm your second cell.</td>
+        <td>I'm your third cell.</td>
+        <td>I'm your fourth cell.</td>
+      </tr>
+      <tr>
+        <td>Second row, first cell.</td>
+        <td>Cell 2.</td>
+        <td>Cell 3.</td>
+        <td>Cell 4.</td>
+      </tr>
+    </table>
+
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 My Website. All rights reserved.</p>
+  </footer>
+
 </body>
+
 </html>

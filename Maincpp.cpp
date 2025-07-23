@@ -1,4 +1,6 @@
+#include <atomic>
 #include <bits/stdc++.h>
+#include <string>
 #include <vector>
 using namespace std;
 
@@ -45,33 +47,36 @@ void fast_io() {
     v.erase(unique(all(v)), v.end());                                          \
   }
 
-void solve() {
-  ll p, q;
-  cin >> p >> q;
-  ll midy = floor(q / 2);
-  cout << "Midy: " << midy << endl;
-  ll midx = (-1 * (p * (midy - q)));
-  cout << "Midx: " << midx << endl;
-  ll ans = midx * ((2 * midy) + (midx - 1)) / 2;
-  cout << "ans: " << ans << endl;
-  ll c = midx + 1;
-  cout << "c: " << c << endl;
-  // rep(i, 0, midx) {
-  // ans += (midx * ((2 * midy) + (midx - 1)) / 2) - c;
-  // c += midx + 1;
-  //}
-  ans = 0;
-  vector<ll> v(midx + 1);
+/*
+ */
 
-  rep(i, 0, midx + 2) {
-    ans += i;
-    v[i] = ans;
-    // cout << "ans: " << ans << endl;
+void solve() {
+  ll n, w;
+  cin >> n >> w;
+  vl weight(n), value(n);
+  ll sumv = 0;
+  rep(i, 0, n) {
+    cin >> weight[i] >> value[i];
+    sumv += value[i];
   }
-  ans = v[midx] * (midy + 1) + v[midy] * (midx + 1);
-  cout << midx + 1 << " " << v[midx + 1] << endl;
-  cout << midy + 1 << " " << v[midy + 1] << endl;
-  cout << "ans: " << ans << endl;
+
+  vl dp(sumv + 1, INF);
+  dp[0] = 0;
+  rep(i, 0, n) {
+    repr(j, sumv, value[i]) {
+      dp[j] = min(dp[j], dp[j - value[i]] + weight[i]);
+    }
+  }
+
+  ll ans = 0;
+
+  rep(i, 0, sumv + 1) {
+    if (dp[i] <= w) {
+      ans = i;
+    }
+  }
+
+  cout << ans << "\n";
 }
 
 int main() {
@@ -79,8 +84,7 @@ int main() {
   int t;
   t = 1;
   // cin >> t;
-  for (int i = 1; i <= t; i++) {
+  for (int i = 1; i <= t; i++)
     solve();
-  }
   return 0;
 }
