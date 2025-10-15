@@ -61,4 +61,3 @@ sns.heatmap(confusion_matrix(y_test, predictions), annot=True, fmt='d',
             cmap='Blues', xticklabels=class_labels, yticklabels=class_labels)
 plt.title('Confusion Matrix')
 plt.xlabel('Predicted')
-# plt.show()

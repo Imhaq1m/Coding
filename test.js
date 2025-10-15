@@ -1,0 +1,1130 @@
+// === Shared Library: Universal Reputation System (URS) ===
+// === Credit & Collaboration ===
+// This engine was built in collaboration with Lothens, whose Personal Reputation Tracker formed a core part of the system’s design.
+// With calls to Auto-Cards in the Input/context/output scripts, originally developed by LewdLeah.
+// Deep thanks to both creators for their contributions—this system would not exist without their foundational work.
+
+state.factions = { "The Silver Blades": 0, "The Dawn Circle": 0, "The Iron Clown": 0};
+
+if (!state.worldClock) {
+  // Customize starting year/month/day/hour/minute
+  state.worldClock = { year: 1454, month: 3, day: 27, hour: 7, minute: 0 };  // <==Don't forget to Set your clock
+}
+if (!state.pendingMinutes) state.pendingMinutes = 0;
+
+const MONTH_DAYS = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+// Helper: Is Leap Year?
+function isLeapYear(year) {
+  return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+}
+
+// Helper: Days in Month
+function daysInMonth(year, month) {
+  if (month === 2 && isLeapYear(year)) return 29;
+  return MONTH_DAYS[month-1];
+}
+
+// Advance time by X minutes, handling all rollovers
+function advanceTime(minutes) {
+  state.pendingMinutes += minutes;
+  let wc = state.worldClock;
+
+  wc.minute += state.pendingMinutes;
+  state.pendingMinutes = 0;
+
+  while (wc.minute >= 60) {
+    wc.minute -= 60;
+    wc.hour += 1;
+  }
+  while (wc.hour >= 24) {
+    wc.hour -= 24;
+    wc.day += 1;
+    // Optional: Trigger onNewDay() here!
+    if (typeof onNewDay === "function") onNewDay();
+  }
+  // Day/month/year rollover
+  while (wc.day > daysInMonth(wc.year, wc.month)) {
+    wc.day -= daysInMonth(wc.year, wc.month);
+    wc.month += 1;
+    // Optional: Trigger onNewMonth() here!
+    if (typeof onNewMonth === "function") onNewMonth();
+  }
+  while (wc.month > 12) {
+    wc.month -= 12;
+    wc.year += 1;
+    // Optional: Trigger onNewYear() here!
+    if (typeof onNewYear === "function") onNewYear();
+  }
+}
+
+// Usage: advanceTime(actionMinutes.eat);
+
+// === Status Bar Helper ===
+function getClockString() {
+  const wc = state.worldClock;
+  // e.g. "Year 1234, 04-23 15:02"
+  return `Year ${wc.year}, ${String(wc.month).padStart(2,"0")}-${String(wc.day).padStart(2,"0")} ${String(wc.hour).padStart(2,"0")}:${String(wc.minute).padStart(2,"0")}`;
+}
+
+// === Milestone/Event Hooks ===
+// Example birthday system, etc
+if (!state.birthdays) state.birthdays = {
+  player:     { month: 3, day: 27 },   // <==Change as needed.
+  mother:     { month: 8, day: 14 },
+  father:     { month: 5, day: 9 },
+  sibling:    { month: 2, day: 12 },
+  grandma:    { month: 1, day: 7 },
+  grandpa:    { month: 11, day: 22 },
+  aunt:       { month: 6, day: 16 },
+  uncle:      { month: 10, day: 3 },
+  cousin:     { month: 9, day: 4 },
+  // Add more as needed!
+};
+
+if (!state.ages) state.ages = {
+  player:   5,    // <==Change as needed.
+  mother:   34,
+  father:   36,
+  sibling:   7,
+  grandma:  60,
+  grandpa:  62,
+  aunt:     32,
+  uncle:    38,
+  cousin:   12,
+  // Add more as needed!
+};
+
+
+// Called on each new day, checks birthdays and advances ages
+function onNewDay() {
+  let wc = state.worldClock;
+  for (const who in state.birthdays) {
+    let bd = state.birthdays[who];
+    if (wc.month === bd.month && wc.day === bd.day) {
+      state.ages[who] = (state.ages[who] || 0) + 1;
+      if (typeof output !== "undefined") output.push(`🎉 It's ${who}'s birthday! They are now ${state.ages[who]}.`);
+    }
+  }
+  // You can hook in other daily/milestone events here!
+}
+// Recurring monthly events (cycling or random)
+const MONTHLY_EVENTS = [
+  "The city hosts the Lantern Festival.",   // <==Change as needed. Remember to make them fit Your Scenarios.
+  "A new merchant guild caravan arrives.",
+  "The rivers swell with spring rains.",
+  "The Harvest Market draws crowds from afar.",
+  "Rumors swirl of a masked thief prowling the night.",
+  "The local lord calls a council in the square.",
+  "A playwright debuts a scandalous new play.",
+  "Children compete in the annual kite-flying contest.",
+  "The temple holds a day of silent meditation.",
+  "A rare flower blooms in the palace gardens.",
+  "Street performers fill the market with music and dance.",
+  "Local artists unveil murals in the city center.",
+  "The Blacksmiths’ Guild forges a legendary blade (or so they claim).",
+  "A rain of shooting stars is seen overhead.",
+];
+
+const YEARLY_EVENTS = [
+  "Fireworks and bells ring in the new year.",   // <==Change as needed. Remember to make them fit Your Scenarios.
+  "Tax collectors begin their rounds.",
+  "The royal astrologer reads omens in the square.",
+  "A grand tournament is announced.",
+  "Peasants march for fairer grain prices.",
+  "A rare comet blazes across the sky.",
+  "The river floods, blessing the fields.",
+  "The king’s health is rumored to be failing.",
+  "The Academy opens applications for young apprentices.",
+  "A ship brings spices and news from distant lands.",
+  "A magical fog shrouds the city for three days.",
+  "A famous bard composes a song about your deeds.",
+];
+
+
+// One-time events
+const SPECIAL_EVENTS = [
+  {
+    key: "mysteriousVisitor",   // <==Change as needed. Remember to make them fit Your Scenarios.
+    month: 5,
+    year: 1455,
+    text: "A mysterious visitor from the east arrives, bringing tales and strange gifts.",
+  },
+  {
+    key: "plagueRumors",
+    month: 10,
+    year: 1456,
+    text: "Whispers of a spreading plague send fear through the city.",
+  },
+  {
+    key: "royalWedding",
+    month: 2,
+    year: 1457,
+    text: "The city erupts in celebration for the royal wedding.",
+  },
+  {
+    key: "firstMagicStorm",
+    month: 8,
+    year: 1455,
+    text: "A wild magic storm lashes the city, enchanting random objects and animals for a day.",
+  },
+  {
+    key: "libraryFire",
+    month: 12,
+    year: 1456,
+    text: "A fire breaks out in the Grand Library. Scholars race to save ancient tomes.",
+     
+  },
+  {
+    key: "secretFestival",
+    month: 9,
+    year: 1455,
+    text: "A secret, invite-only festival draws the city's elite into the moonlit gardens.",
+    onceOnly: true // Example, in case you want some events absolutely one-time
+  },
+];
+
+
+// You can use onNewMonth and onNewYear for bigger events/seasons if you want:
+function onNewMonth() {
+  let wc = state.worldClock;
+  if (!state.firedEvents) state.firedEvents = {};
+
+  // 1. One-time special events (fire if not already fired and matches date)
+  for (const event of SPECIAL_EVENTS) {
+    if (
+      !state.firedEvents[event.key] &&
+      wc.year === event.year &&
+      wc.month === event.month
+    ) {
+      state.firedEvents[event.key] = true;
+      if (typeof output !== "undefined") output.push(`🌟 ${event.text}`);
+    }
+  }
+
+  // 2. Recurring event (pick by month or random)
+  let eventLine = MONTHLY_EVENTS[(wc.month - 1) % MONTHLY_EVENTS.length];
+  if (typeof output !== "undefined") output.push(`📅 ${eventLine}`);
+}
+
+
+function onNewYear() {
+  let wc = state.worldClock;
+  if (!state.firedEvents) state.firedEvents = {};
+
+  // 1. One-time yearly special events if you want (repeat the above logic with year+month = 1 if needed)
+
+  // 2. Recurring event (cycle by year, or pick random)
+  let eventLine = YEARLY_EVENTS[(wc.year - 1454) % YEARLY_EVENTS.length];
+  if (typeof output !== "undefined") output.push(`🎇 ${eventLine}`);
+  if (wc.year === 1458 && !state.firedEvents["mysteriousComet"]) {
+    state.firedEvents["mysteriousComet"] = true;
+    if (typeof output !== "undefined") output.push("☄️ A blazing comet appears, and the city's fate is said to hang in the balance.");
+  }
+}
+
+
+function timeSkip({days = 0, months = 0, years = 0} = {}) {
+  if (!state.worldClock) state.worldClock = { year: 1454, month: 3, day: 27, hour: 7, minute: 0 };
+  let clock = state.worldClock;
+
+  // Calculate total days to skip (including months/years)
+  let totalDays = days;
+
+  // Add days for each year skipped
+  for (let y = 0; y < years; y++) {
+    let yVal = clock.year + y;
+    for (let m = 1; m <= 12; m++) {
+      totalDays += daysInMonth(yVal, m);
+    }
+  }
+
+  // Add days for each month skipped
+  for (let m = 0; m < months; m++) {
+    let mYear = clock.year + Math.floor((clock.month + m - 1) / 12);
+    let mNum = ((clock.month + m - 1) % 12) + 1;
+    totalDays += daysInMonth(mYear, mNum);
+  }
+
+  // Advance day by day so daily events trigger
+  for (let i = 0; i < totalDays; i++) {
+    clock.day++;
+    if (clock.day > daysInMonth(clock.year, clock.month)) {
+      clock.day = 1;
+      clock.month++;
+      if (clock.month > 12) {
+        clock.month = 1;
+        clock.year++;
+      }
+    }
+    if (typeof onNewDay === "function") onNewDay();
+  }
+
+  // Optionally, reset hour/minute (uncomment if you want this)
+  // clock.hour = 7; clock.minute = 0;
+
+  if (typeof output !== "undefined") {
+    let parts = [];
+    if (years) parts.push(`${years} year${years > 1 ? "s" : ""}`);
+    if (months) parts.push(`${months} month${months > 1 ? "s" : ""}`);
+    if (days) parts.push(`${days} day${days > 1 ? "s" : ""}`);
+    output.push(`⏩ You skip ahead ${parts.join(", ")}. It is now ${getClockString()}.`);
+  }
+}
+   function getCompoundActionMinutes(text) {
+  let minutes = 0;
+  let matches = new Set();
+
+  // Your full actionMinutes and actionRegexList should be defined above!
+  for (const [regex, key] of actionRegexList) {
+    if (regex.test(text)) {
+      if (!matches.has(key)) { // Prevent double-counting if two regexes point to the same action
+        minutes += actionMinutes[key] || 0;
+        matches.add(key);
+      }
+    }
+  }
+  // Fallback: If nothing matched, it's a minor action
+  if (minutes === 0) return actionMinutes.minor || 1;
+  return minutes;
+}
+
+const actionMinutes = {
+  eat: 10, drink: 3, cook: 20, clean: 15, bathe: 15, wash: 10, dress: 5, sleep: 480, nap: 60, groom: 7, brush: 5,
+  chat: 15, talk: 10, argue: 12, comfort: 8, teach: 25, scold: 6, debate: 20, joke: 5, lecture: 30, confess: 8,
+  feed: 7, soothe: 7, cuddle: 6, hug: 3, kiss: 2, play: 15, babysit: 30, care: 18, rock: 5, tuck: 5, discipline: 7,
+  cry: 3, laugh: 2, sulk: 8, reminisce: 10, daydream: 7, meditate: 12, worry: 5,
+  walk: 10, run: 4, jog: 6, hike: 18, ride: 15, sail: 30, row: 18, climb: 9, sneak: 6, swim: 12, fly: 25, explore: 18,
+  study: 30, work: 60, write: 20, read: 15, paint: 30, sculpt: 40, invent: 50, build: 45, repair: 20, sew: 15, shop: 30, train: 35, plant: 20, harvest: 22, mine: 45, smith: 50, brew: 18, enchant: 25, experiment: 30,
+  sing: 8, dance: 12, game: 15, listenmusic: 8, perform: 25, watch: 10, fish: 30, picnic: 40, gamble: 20, drinkalcohol: 30,
+  fight: 8, battle: 10, spar: 12, duel: 12, hunt: 35, escape: 7, steal: 5, spy: 15, patrol: 25,
+  cast: 12, ritual: 30, summon: 18, heal: 8, bless: 5, curse: 7, scry: 10, brewpotion: 15, commune: 12,
+  minor: 1
+};
+
+const actionRegexList = [
+  // [regex, key in actionMinutes]   // <==Currently being tested
+  [/\bsleep\b/, 'sleep'],
+  [/\bnap\b|\brest\b/, 'nap'],
+  [/\beat\b|\bbreakfast|\blunch\b|\bdinner\b|\bmeal\b|\bsnack/, 'eat'],
+  [/\b(drink(?!\s*(ale|beer|wine|liquor)))|\bsip\b|\bbeverage\b|\bwater\b|\btea\b|\bcoffee\b/, 'drink'],
+  [/\bdrink (ale|beer|wine|liquor)\b/, 'drinkalcohol'],
+  [/\bcook\b|\bbake\b|\bprepare food\b/, 'cook'],
+  [/\bclean\b|\btidy\b|\bsweep\b|\bscrub\b|\bmop\b/, 'clean'],
+  [/\bbathe\b|\bbath\b|\bwash\b|\bshower\b|\brinse\b/, 'bathe'],
+  [/\bdress\b|\bclothe\b|\bchange clothes\b|\bput on\b/, 'dress'],
+  [/\bgroom\b|\bcomb\b|\bbrush hair\b|\bstyle\b/, 'groom'],
+  [/\bbrush (teeth|hair)\b/, 'brush'],
+  
+    // Conversation
+  [/\bchat\b|\btalk\b|\bconverse\b|\bspeak\b|\bconversation\b|\bgossip\b/, 'chat'],
+  [/\bargue\b|\bdebate\b|\bfight verbally\b|\bconfront\b/, 'argue'],
+  [/\bcomfort\b|\breassure\b|\bconsole\b/, 'comfort'],
+  [/\bteach\b|\bexplain\b|\binstruct\b|\btutor\b/, 'teach'],
+  [/\bscold\b|\bdiscipline\b|\bchide\b/, 'scold'],
+  [/\bjoke\b|\bjest\b|\bbanter\b|\bquip(s)?\b/, 'joke'],
+  [/\blecture\b|\blong talk\b/, 'lecture'],
+  [/\bconfess\b|\badmit\b|\breveal secret\b/, 'confess'],
+
+  // Family & care
+  [/\bfeed\b|\bfeeding\b/, 'feed'],
+  [/\bsoothe\b|\bcalm\b|\bsettle\b/, 'soothe'],
+  [/\bcuddle\b|\bhug\b|\bembrace\b/, 'cuddle'],
+  [/\bkiss\b|\bpeck\b|\bsmooch\b/, 'kiss'],
+  [/\bplay\b|\bgames?\b|\bfrolic\b|\broughhouse\b|\btag\b/, 'play'],
+  [/\bbabysit\b|\bwatch children\b/, 'babysit'],
+  [/\bcare\b|\bnurse\b|\battend\b/, 'care'],
+  [/\brock (the|a) baby\b|\bcradle\b/, 'rock'],
+  [/\btuck( in)?\b/, 'tuck'],
+
+  // Emotional
+  [/\bcry\b|\bweep\b|\bsob\b/, 'cry'],
+  [/\blaugh\b|\bgiggle\b|\bchuckle\b/, 'laugh'],
+  [/\bsulk\b|\bmope\b|\bbrood\b/, 'sulk'],
+  [/\breminisce\b|\bremember\b|\breflect\b/, 'reminisce'],
+  [/\bdaydream\b|\bimagine\b/, 'daydream'],
+  [/\bmeditate\b|\bfocus\b|\bbreathe\b/, 'meditate'],
+  [/\bworry\b|\banxious\b|\bfret\b/, 'worry'],
+
+  // Travel & movement
+  [/\bwalk\b|\bstroll\b|\bwander\b|\bamble\b/, 'walk'],
+  [/\brun\b|\bdash\b|\bsprint\b/, 'run'],
+  [/\bjog\b/, 'jog'],
+  [/\bhike\b/, 'hike'],
+  [/\bride\b|\bmount\b|\bhorseback\b/, 'ride'],
+  [/\bsail\b|\brow\b|\bcanoe\b|\bboat\b/, 'sail'],
+  [/\bclimb\b|\bscale\b/, 'climb'],
+  [/\bsneak\b|\btiptoe\b|\bcreep\b/, 'sneak'],
+  [/\bswim\b|\bdive\b/, 'swim'],
+  [/\bfly\b|\bglide\b|\bsoar\b/, 'fly'],
+  [/\bexplore\b|\bscout\b|\binvestigate\b/, 'explore'],
+
+  // Work & crafting
+  [/\bstudy\b|\bread\b|\blearn\b|\bresearch\b/, 'study'],
+  [/\bwork\b|\blabor\b|\btoil\b|\bjob\b|\btask\b/, 'work'],
+  [/\bwrite\b|\bscribble\b|\bcompose\b/, 'write'],
+  [/\bpaint\b|\bdraw\b|\bsketch\b/, 'paint'],
+  [/\bsculpt\b|\bcarve\b|\bmold\b/, 'sculpt'],
+  [/\binvent\b|\btinker\b|\bengineer\b/, 'invent'],
+  [/\bbuild\b|\bconstruct\b/, 'build'],
+  [/\brepair\b|\bfix\b|\bmend\b/, 'repair'],
+  [/\bsew\b|\bstitch\b|\bknit\b/, 'sew'],
+  [/\bshop\b|\bmarket\b|\bbuy\b|\bsell\b/, 'shop'],
+  [/\btrain\b|\bpractice\b|\bdrill\b/, 'train'],
+  [/\bplant\b|\bgarden\b/, 'plant'],
+  [/\bharvest\b|\breap\b/, 'harvest'],
+  [/\bmine\b|\bdig\b|\bquarry\b/, 'mine'],
+  [/\bsmith\b|\bforge\b/, 'smith'],
+  [/\bbrew\b|\bdistill\b/, 'brew'],
+  [/\benchant\b|\bimbue\b/, 'enchant'],
+  [/\bexperiment\b|\btest\b/, 'experiment'],
+
+  // Leisure & fun
+  [/\bsing\b|\bhum\b|\bchant\b/, 'sing'],
+  [/\bdance\b|\bwaltz\b|\btwirl\b/, 'dance'],
+  [/\bgame\b|\bplay\b|\bboard game\b/, 'game'],
+  [/\blisten to music\b|\bmusic\b|\bmelody\b/, 'listenmusic'],
+  [/\bperform\b|\bshow\b|\brecital\b/, 'perform'],
+  [/\bwatch\b|\bobserve\b/, 'watch'],
+  [/\bfish\b|\bfishing\b/, 'fish'],
+  [/\bpicnic\b/, 'picnic'],
+  [/\bgamble\b|\bbet\b|\bwager\b/, 'gamble'],
+
+  // Combat & risk
+  [/\bfight\b|\bbrawl\b|\bscuffle\b/, 'fight'],
+  [/\bbattle\b|\bwar\b/, 'battle'],
+  [/\bspar\b|\bpractice fight\b/, 'spar'],
+  [/\bduel\b|\bchallenge\b/, 'duel'],
+  [/\bhunt\b|\btrack\b/, 'hunt'],
+  [/\bescape\b|\bflee\b|\brun away\b/, 'escape'],
+  [/\bsteal\b|\bpickpocket\b|\blift\b/, 'steal'],
+  [/\bspy\b|\beavesdrop\b/, 'spy'],
+  [/\bpatrol\b/, 'patrol'],
+
+  // Magic & fantasy
+  [/\bcast\b|\bspell\b|\bincant\b|\bmagic\b/, 'cast'],
+  [/\britual\b|\bceremony\b/, 'ritual'],
+  [/\bsummon\b|\bconjure\b/, 'summon'],
+  [/\bheal\b|\bcure\b/, 'heal'],
+  [/\bbless\b/, 'bless'],
+  [/\bcurse\b/, 'curse'],
+  [/\bscry\b|\bdivine\b|\bsee future\b/, 'scry'],
+  [/\bbrew (potion|elixir)\b/, 'brewpotion'],
+  [/\bcommune\b|\bspirit\b|\bghost\b|\bancestor\b/, 'commune'],
+];
+
+// --- DEFAULTS ---
+//-- if using Emojis then use ( Factions: "✨", ) 
+const DEFAULT_FACTIONS = {
+Factions: 0,           
+Should: 0,
+Look: 0,
+Like: 0,
+This: 0
+}; // <-- Users define their own factions. ALWAYS REMEMBER TO SET UP FACTIONS! 
+
+const FACTION_EMOJIS = {
+   Factions: "✨",           
+   Should: "🤔",
+   Look: "👀",
+   Like: "😂",
+   This: "🤯"
+     };
+
+const DEFAULT_REPUTATION = {
+  global: 0,
+  categories: {
+    warlike: 0,
+    diplomatic: 0,
+    merciful: 0,
+    ruthless: 0,
+    noble: 0,
+    deceptive: 0
+  }
+};
+
+const REPUTATION_CATS = [
+  "Charmer", "Honorable", "Rogue", "Dominant", "Submissive", "Prankster",
+  "Curious", "Innocent", "Mischievous", "Affectionate", "Defiant",
+  "Brave", "Clever", "Playful"
+];
+
+
+// --- INIT ---
+function initWorldReputation(state) {
+  if (!state.reputation) state.reputation = { global: 0 };
+  if (!state.factions) state.factions = { ...DEFAULT_FACTIONS };
+}
+
+function initPersonalReputation(state) {
+  if (!state.reputation) state.reputation = {};
+  for (const cat of REPUTATION_CATS) {
+    if (typeof state.reputation[cat] !== "number") {
+      state.reputation[cat] = 0;
+    }
+  }
+}
+
+// --- LEXICON: World Reputation Tags ---
+const URT_LEXICON = {
+  warlike: [/\battack\b/i, /\bdestroy\b/i, /\braid\b/i, /\bbombard\b/i, /\bexecute\b/i],
+  diplomatic: [/\bnegotiate\b/i, /\bparley\b/i, /\btreaty\b/i, /\balliance\b/i, /\bsurrender\b/i],
+  merciful: [/\bspare\b/i, /\bheal\b/i, /\bsave\b/i, /\bprotect\b/i, /\brescue\b/i],
+  deceitful: [/\blie\b/i, /\btrick\b/i, /\bdeceive\b/i, /\bcon\b/i, /\bmanipulate\b/i],
+  honorable: [/\boath\b/i, /\bswear\b/i, /\bhonor\b/i, /\bjustice\b/i, /\btruth\b/i],
+  threatening: [/\bthreaten\b/i, /\bwarn\b/i, /\bintimidate\b/i]
+};
+
+const REP_CATEGORY_CHANGES = {
+  warlike:   {Add: 1, Your : 1, Factions: -2, Like: -1, So: -1},
+  diplomatic:{Do: 2, This: -2, For: 1, All: 3, Categories: -2,},
+  merciful:  {},
+  ruthless:  {},
+  noble:     {},
+  deceptive: {}
+};
+
+// --- LEXICON: Personal Reputation Tags ---
+const PERSONAL_REP_PATTERNS = [
+    // 🦸 Big Heroics (Huge Boosts)
+    { regex: /\b(dove in front of (the|a) blade|pushed (someone|them|a child) out of harm's way|threw (them|someone|a child) to safety|shielded (them|someone|the innocent)|leapt to save|saved (a|the) life|risked (your|his|her|their) life for|stood between (danger|the attacker|the mob) and (someone|them)|took a blow meant for)\b/i, changes: { Honorable: 3, Brave: 3, Charmer: 2 } },
+
+    // ⚖️ Justice Served (Public Deeds)
+    { regex: /\b(brought a murderer to justice|saved (the|a) town|publicly pardoned (an|the) accused|intervened to prevent (a|an) execution|forgave a sworn enemy|stopped a public duel|spared (the|an) enemy in front of all)\b/i, changes: { Honorable: 4, Charmer: 1, Dominant: 1 } },
+
+    // 🤝 Selfless Sacrifice
+    { regex: /\b(sacrificed (your|his|her|their) fortune for|gave up (your|his|her|their) claim for|renounced (a|the) title for another|chose exile for the sake of|gave away (all|most of) your gold|donated a lifesaving invention|chose poverty to protect)\b/i, changes: { Honorable: 4, Charmer: 2, Submissive: 1 } },
+
+    // 🦁 Fearless Stand
+    { regex: /\b(stood alone against overwhelming odds|defied (the|a) mob|refused to bow to a tyrant|faced (certain )?death without fear|publicly challenged (the|a) corrupt official|stood your ground against)\b/i, changes: { Brave: 4, Honorable: 2, Dominant: 2 } },
+
+    // 🧠 Great Ingenuity (Innovation/Rescue)
+    { regex: /\b(invented a device that saved lives|engineered a solution in crisis|built a bridge to rescue|created a cure in secret|outsmarted (the|a) villain with a new invention)\b/i, changes: { Clever: 3, Honorable: 2, Brave: 1 } },
+
+    // 🦹 Heinous Betrayal
+    { regex: /\b(betrayed a comrade|sold out (a|the) cause for gold|left (them|someone) to die|turned traitor for coin|struck down an innocent|conspired to assassinate|plotted to overthrow (the|a) leader)\b/i, changes: { Honorable: -5, Rogue: 5, Dominant: 2 } },
+
+    // 😈 Public Atrocity
+    { regex: /\b(burned a village|slaughtered prisoners|executed (a|the) child|committed (murder|atrocity) in public|ordered a massacre|condemned (the|a) innocent|forced a confession by torture)\b/i, changes: { Honorable: -5, Rogue: 3, Dominant: 3 } },
+
+    // 🗡️ Ruthless Ambition
+    { regex: /\b(ousted (your|his|her|their) rival by poison|framed (a|the) innocent|blackmailed (the|a) magistrate|forced (the|a) family into ruin|stole a fortune under (the|a) truce|bribed (the|a) official for power)\b/i, changes: { Rogue: 4, Dominant: 2, Honorable: -3 } },
+
+    // 💣 Rebellion & Treason (Negative)
+    { regex: /\b(incited (the|a) riot|led a rebellion for personal gain|betrayed (your|his|her|their) oath|collaborated with enemies of the crown|joined a coup for gold)\b/i, changes: { Rogue: 4, Defiant: 3, Honorable: -3 } },
+
+
+  // === 🧡 Charmer (positive & awkward/negative) ===
+  { regex: /\b(smile(?:s|d)?|grin(?:s|ned)?|blush(?:es|ed)?|flirt(?:s|ed|ing)?|gaze(?:s|d)?|wink(?:s|ed)?|affection(?:ate)?|charm(?:s|ed)?|caress(?:es|ed)?|stroke(?:s|d)?|calls [\w]+ (dear|love|sweetheart|handsome|beautiful)|sweetheart|darling|beloved|snuggle(?:s|d)?)\b/i, changes: { Charmer: 1 } },
+  { regex: /\b(sweetheart|darling|dear|beloved|precious|spoil(?:s|ed)?|pamper(?:s|ed|ing)?|dote(?:s|d)? on|face lights up|glows with joy|beaming smile|eyes sparkle|affectionately|gently|tenderly|warmly|holds hands?|embrace(?:s|d)?|cradle(?:s|d)?|non-verbal affection|holds gaze|light touch|brushed hair back|leans in|rest(?:s|ed)? head on|shared a smile|soft voice|gentle laugh|met (your|their) eyes|whispers softly|lively banter|compliments?|flatters?|sweet talk|offers? a rose|makes? a heart sign|friendly wink|friendly pat|wins? over)\b/i, changes: { Charmer: 1 } },
+  // Charmer, era/setting flavor
+  { regex: /\b(bows? elegantly|offers? a gloved hand|kisses? the back of a hand|presents? a flower|calls? you enchanting|bestows? a favor|sings? your praises|courts?|writes? a poem for|shares? a waltz|gives? a gallant nod|toasts? to your health|offers? a dance)\b/i, changes: { Charmer: 1 } },
+  // Charmer (awkward/negative)
+  { regex: /\b(awkward compliment|flirted and failed|creepy smile|unwelcome touch|makes it weird|stares too long|fumbles a compliment|tries too hard|calls someone (honey|babe) uninvited)\b/i, changes: { Charmer: -1 } },
+
+  // === 🛡️ Honorable (positive & negative) ===
+  { regex: /\b(thank(?:s| you)?|offers?|protect(?:s|ed)?|defend(?:s|ed)?|stand(?:s)? up(?: for)?|apolog(?:y|ize(?:s|d)?)|rescues?|generous|fair(?:ly)?|grants?|keeps? promise|truth(?:ful)?|gentle|grateful|selfless|provides?|looks after|respects?|keeps? their word|acts? with integrity|loyal|offers? honest advice|mediates?|takes? the blame|refuses? to cheat|tells? the truth|shows? mercy|refuses? bribe|restores? order|speaks? up for others|pays? a debt|returns? lost property)\b/i, changes: { Honorable: 1 } },
+  // Honorable, era/setting flavor
+  { regex: /\b(draws? a line|gives? their oath|swears? on (family|honor|ancestors|the gods)|bows? to elders|offers? a seat|stands vigil|defends? the innocent|duels? for justice|judges? fairly|declines? a bribe|stands? for tradition)\b/i, changes: { Honorable: 1 } },
+  // Honorable (negative/antithetical)
+  { regex: /\b(breaks? a promise|lies?|betrays?|cheats?|acts selfishly|takes? unfair advantage|lets? others down|abandons? a friend|accepts? bribe|frames? an innocent|steals? credit|ignores? suffering|acts dishonorably|cowardly|double-cross(?:es|ed)?|takes? the easy way out)\b/i, changes: { Honorable: -1 } },
+
+  // === 🦝 Rogue (positive & negative) ===
+  { regex: /\b(lie(?:s|d)?|steal(?:s|ing)?|cheat(?:s|ed)?|trick(?:s|ed)?|deceiv(?:es|ed)?|manipulat(?:es|ed)?|sneak(?:s|ed)?|smuggle(?:s|d)?|risky|selfish|betray(?:s|ed)?|sell out|backstab(?:s|bed)?|plots?|frames?|betrays trust|sabotag(?:es|ed)?|coldly walks away|spiteful|acts behind back|shifty|forges? a signature|slinks? away|smirks?|smokescreen|forged?|uses? a fake name|stole|swindled)\b/i, changes: { Rogue: 1, Honorable: -1 } },
+  // Rogue, era/setting flavor
+  { regex: /\b(cuts? a purse|picks? a lock|fakes? illness|hides? in shadows|dodges? the law|palm(?:s|ed)? an object|slips? away unseen|tells? a tall tale|uses? a code word|forges? a document)\b/i, changes: { Rogue: 1 } },
+  // Rogue (negative/antithetical)
+  { regex: /\b(caught red-handed|caught stealing|gets? caught lying|exposed for cheating|confesses? under pressure|too honest to bluff|sells? out a friend)\b/i, changes: { Rogue: -1 } },
+
+  // === 👑 Dominant (positive & negative) ===
+  { regex: /\b(order(?:s|ed)?|command(?:s|ed)?|grab(?:s|bed)? control|takes? charge|intimidat(?:es|ed)?|dominate(?:s|d)?|demands?|assert(?:s|ed)?|forces?|claim(?:s|ed)? authority|interrogates?|commands attention|takes the lead|issues ultimatum|sets the terms|makes demands|overrules objections|pushes forward|bosses? around|talks? over|interrupts?|shuts down dissent|leads? the charge|walks? ahead)\b/i, changes: { Dominant: 1, Submissive: -1 } },
+  // Dominant, era/setting flavor
+  { regex: /\b(declares? law|presides? over|draws? a line in the sand|dictates? terms|calls? for order|addresses? the crowd|steps? up first|claims? victory|ushers? everyone out|proclaims? leadership|announces? intent)\b/i, changes: { Dominant: 1 } },
+  // Dominant (negative/antithetical)
+  { regex: /\b(bullies?|abuses? power|shouts? others down|acts tyrannical|oversteps? bounds|ignores? advice|rejects? help|makes? arbitrary rule|forces? submission)\b/i, changes: { Dominant: -1 } },
+
+  // === 🙇 Submissive (positive & negative) ===
+  { regex: /\b(follow(?:s|ed)?|submit(?:s|ted)?|obey(?:s|ed)?|defer(?:s|red)?|yield(?:s|ed)?|agrees? softly|backs? down|accept(?:s|ed)? direction|reluctant(?:ly)? agrees?|tears up|lowers gaze|nods silently|quietly agrees|lets them win|whispers consent|backs off|lets? others decide|sits? quietly|bows? head|lets? someone else speak|agrees? with hesitation|steps? aside|asks? for permission)\b/i, changes: { Submissive: 1, Dominant: -1 } },
+  // Submissive, era/setting flavor
+  { regex: /\b(bows? deeply|serves? tea|offers? seat|waits? their turn|accepts? their role|kneels?|curtsies?|removes? hat respectfully|humbles? themselves|asks? to be excused)\b/i, changes: { Submissive: 1 } },
+  // Submissive (negative/antithetical)
+  { regex: /\b(defies? order|stands? up for self|refuses? to back down|contradicts? authority|acts independently|pushes? back|talks? back)\b/i, changes: { Submissive: -1 } },
+
+  // === 🤪 Prankster (positive & negative) ===
+  { regex: /\b(joke(?:s|d)?|tease(?:s|d)?|prank(?:s|ed)?|jest(?:s|ed)?|wry grin|mischief(?:ous)?|playful|laugh(?:s|ed)?|mock(?:s|ed)?|sarcastic remark|light-hearted insult|banter|goofy face|clowns around|pulls? a face|tells? a joke|switches? the salt|tricks? a friend|fake spider|hidden bucket|silly prank|practical joke|tells? a tall tale)\b/i, changes: { Prankster: 1, Honorable: -1 } },
+  // Prankster, era/setting flavor
+  { regex: /\b(slips? a frog in a pocket|ties? shoelaces together|puts? ink on a seat|draws? a mustache|surprises? with confetti|stages? a harmless ruse|plays? dead for a laugh)\b/i, changes: { Prankster: 1 } },
+  // Prankster (negative/antithetical)
+  { regex: /\b(causes? real harm|prank backfires|apologizes? for a joke|gets? caught pranking|offends?|hurts? feelings with joke|mockery goes too far)\b/i, changes: { Prankster: -1 } },
+
+  // === 👨‍👩‍👧‍👦 Parental (positive & negative) ===
+  { regex: /\b(daddy|mommy|papa|mama|my (daughter|son|child)|our baby|little one|sweet child|my girl|my boy|your mother|your father|tucks? in|checks? temperature|bandages?|makes? lunch|soothes?|wipes? tears|praises?|gives? a piggyback|teaches? a lesson|reads? a bedtime story|prepares? a meal|encourages?|scolds? gently)\b/i, changes: { Charmer: 1, Honorable: 1 } },
+  { regex: /\b(I'?ll always protect you|I'?ll keep you safe|I'm proud of you|I'm here for you|don't be scared|you're safe now|I love you so much|you can count on me|I won't let anything happen to you|you did so well|I'm so lucky to have you)\b/i, changes: { Charmer: 1, Honorable: 1 } },
+  // Parental (negative)
+  { regex: /\b(scolds? harshly|abandons? their child|breaks? a promise to a child|ignores? child's cry|forgets? birthday|shouts? at|punishes? unfairly)\b/i, changes: { Charmer: -1, Honorable: -1 } },
+
+  // === 🧠 Curious (Child-exclusive, + variants) ===
+  { regex: /\b(why\??|how come|asks? questions?|tilts? head|gazes? in wonder|peers? curiously|explores?|touches? gently|wide-eyed|asks? "what's that"|investigates?|examines?|wants? to know|seeks? answers|prods?|curiosity gets the better|asks? how things work)\b/i, changes: { Curious: 1 } },
+
+  // === 🤍 Innocent (Child-exclusive, + variants) ===
+  { regex: /\b(coo(?:s|ed|ing)?|gurgles?|soft noises?|little squeal|tiny gasp|soft babble|toothless grin|dimples?|baby sounds?|yawns?|innocent giggle|eyes widen|trusts? completely|untouched by worry|sees? the good in everyone|pure smile|blinks? up trustingly)\b/i, changes: { Innocent: 1 } },
+
+  // === 😈 Mischievous (Child-exclusive, + variants) ===
+  { regex: /\b(giggling after mischief|secretly hides something|playfully denies|sneaky look|gets into trouble|little troublemaker|messes with objects|draws on walls|plans? a prank|runs? off giggling|swaps? labels|tries? to sneak food|tiptoes?|sets? a trap|pretends? to be asleep|climbs? where forbidden)\b/i, changes: { Mischievous: 1 } },
+
+  // === 💞 Affectionate (Child-exclusive, + variants) ===
+  { regex: /\b(nuzzles?|snuggles?|rests? head on|hugs?|cuddles?|clings? to|reaches? up for|holds hands?|beams? with love|plants? a kiss|nestles? in arms|draws? a picture for|offers? a flower|brings? a gift|shares? toys|kisses? cheek)\b/i, changes: { Affectionate: 1 } },
+
+  // === 💢 Defiant (Child-exclusive, + variants) ===
+  { regex: /\b(says? no|refuses?|throws? a tantrum|crosses? arms|angrily stomps?|pouts?|talks? back|sulks?|glared?|rebels?|shouts? "no!"|refuses? to move|makes? a scene|defies? authority|resists? instruction|storms? off)\b/i, changes: { Defiant: 1 } },
+
+  // === 🦁 Brave (Child-exclusive, + variants) ===
+  { regex: /\b(faces? fear|holds? ground|protects?|stood? up|bold move|stood in front of|offers? to help|steps? forward|rescues? a friend|braves? the dark|fights? back|tries? again|asks? for a turn|defends? sibling|raises? hand to volunteer)\b/i, changes: { Brave: 1 } },
+
+  // === 🧠 Clever (Child-exclusive, + variants) ===
+  { regex: /\b(figures? out|solves?|finds? a way|clever trick|outsmarts?|smart idea|problem solved|puzzles? it out|invents?|engineers?|thinks? ahead|spots? a loophole|plays? a strategy|explains? the answer|guesses? right|makes? a plan)\b/i, changes: { Clever: 1 } },
+
+  // === 🎠 Playful (Child-exclusive, + variants) ===
+  { regex: /\b(giggles?|spins? around|dances?|jumps? out|hides? under blanket|chases?|pretends?|makes silly face|tickles?|starts? a game|plays? tag|hops?|laughs? for fun|jumps? in puddles|pretends? to fly|builds? a fort|spins? in circles)\b/i, changes: { Playful: 1 } }
+];
+
+function getPersonalReputationPatterns() {
+  return PERSONAL_REP_PATTERNS;
+}
+
+function modifyReputation(text, state) {
+  for (const category in URT_LEXICON) {
+    for (const pattern of URT_LEXICON[category]) {
+      if (pattern.test(text)) {
+        applyRepCategory(category, state);
+        break;
+      }
+    }
+  }
+}
+
+function modifyPersonalReputation(text, state) {
+  let age = (state.ages?.player ?? 0);
+  let isInfant = getAgeBracket(age) === "infant";
+  for (const p of PERSONAL_REP_PATTERNS) {
+    if (p.regex.test(text)) {
+      for (const cat in p.changes) {
+        // Infant-specific handling:
+        if (isInfant) {
+          // Only let *core baby traits* gain (others ignored)
+          if (!["Innocent", "Affectionate", "Curious", "Playful",
+           "Clever", "Brave", "Brave", "Mischievous", "Charmer" ].includes(cat)) continue;
+          // Cap gain to max ±3 for each allowed trait
+          let current = state.reputation[cat] || 0;
+          let delta = Math.sign(p.changes[cat]); // Only ±1 per trigger
+          let next = current + delta;
+          // Clamp to [-3, 3] for infants
+          state.reputation[cat] = Math.max(-3, Math.min(3, next));
+        } else {
+          // Normal gain for non-infants
+          state.reputation[cat] = (state.reputation[cat] || 0) + p.changes[cat];
+        }
+      }
+    }
+  }
+}
+
+
+function applyRepCategory(category, state) {
+  const changes = {
+    warlike: {},
+    diplomatic: {},
+    merciful: {},
+    deceitful: {},
+    honorable: {},
+    threatening: {}
+  };
+  const delta = changes[category];
+  if (!delta) return;
+  const before = { ...state.factions };
+  for (const faction in delta) {
+    state.factions[faction] = (state.factions[faction] || 0) + delta[faction];
+  }
+  state.lastReputationChange = trackReputationChanges(before, state.factions);
+}
+
+function getReputationSummary(state) {
+  return Object.entries(state.factions).map(([faction, score]) => `${faction}: ${score}`).join(" | ");
+}
+
+function trackReputationChanges(before, after) {
+  const delta = {};
+  for (const key in after) {
+    const diff = (after[key] || 0) - (before[key] || 0);
+    if (diff !== 0) delta[key] = diff;
+  }
+  return delta;
+}
+const JOB_PATHS = {
+  inventor: {
+    name: "Inventor",
+    tiers: [
+      { 
+        name: "Tinkerer",
+        requirements: { Curious: 20, Clever: 20 },
+        unlockFlag: "job_tinkerer"
+      },
+      { 
+        name: "Inventor",
+        requirements: { Curious: 40, Clever: 40, Brave: 20 },
+        unlockFlag: "job_inventor"
+      },
+      { 
+        name: "Master Artisan",
+        requirements: { Curious: 60, Clever: 60, Honorable: 30 },
+        unlockFlag: "job_master_artisan"
+      },
+      { 
+        name: "Court Engineer",
+        requirements: { Curious: 80, Clever: 80, Honorable: 50, Charmer: 30 },
+        unlockFlag: "job_court_engineer"
+      },
+      { 
+        name: "Sage of Wonders",
+        requirements: { Curious: 95, Clever: 90, Honorable: 80, Brave: 60 },
+        storyFlag: "majorDiscovery", // Optionally require plot flags
+        unlockFlag: "job_sage_of_wonders"
+      },
+    ]
+  },
+  noble: {
+    name: "Noble",
+    tiers: [
+      { name: "Page", requirements: { Charmer: 15, Honorable: 15, Submissive: 10 }, unlockFlag: "job_page" },
+      { name: "Squire/Envoy", requirements: { Charmer: 35, Honorable: 30, Dominant: 20, Submissive: 20 }, unlockFlag: "job_envoy" },
+      { name: "Noble", requirements: { Charmer: 60, Honorable: 55, Dominant: 40, Clever: 30 }, unlockFlag: "job_noble" },
+      { name: "Royal Advisor", requirements: { Charmer: 85, Honorable: 80, Dominant: 70, Clever: 50, Brave: 30 }, unlockFlag: "job_royal_advisor" },
+      { name: "Grand Chancellor", requirements: { Charmer: 98, Honorable: 90, Dominant: 90, Clever: 80, Brave: 60, }, storyFlag: "kingdomSaved", unlockFlag: "job_grand_chancellor" }
+    ]
+  },
+  rogue: {
+    name: "Rogue",
+    tiers: [
+      { name: "Pickpocket", requirements: { Rogue: 20, Mischievous: 20 }, unlockFlag: "job_pickpocket" },
+      { name: "Swindler", requirements: { Rogue: 45, Prankster: 35, Clever: 25 }, unlockFlag: "job_swindler" },
+      { name: "Master Thief", requirements: { Rogue: 70, Prankster: 60, Clever: 50, Defiant: 40 }, unlockFlag: "job_master_thief" },
+      { name: "Shadowmaster", requirements: { Rogue: 85, Prankster: 80, Clever: 75, Defiant: 65, Brave: 40 }, unlockFlag: "job_shadowmaster" },
+      { name: "Phantom King/Queen", requirements: { Rogue: 99, Prankster: 95, Clever: 90, Defiant: 90, Brave: 80 }, storyFlag: "legendaryHeist", unlockFlag: "job_phantom_king" }
+    ]
+  },
+  warrior: {
+    name: "Warrior",
+    tiers: [
+      { name: "Sellsword", requirements: { Brave: 20, Dominant: 15, Defiant: 10 }, unlockFlag: "job_sellsword" },
+      { name: "Guard Captain", requirements: { Brave: 40, Dominant: 35, Honorable: 25, Clever: 15 }, unlockFlag: "job_guard_captain" },
+      { name: "Knight", requirements: { Brave: 65, Dominant: 50, Honorable: 45, Charmer: 30, Defiant: 30 }, unlockFlag: "job_knight" },
+      { name: "Champion", requirements: { Brave: 85, Dominant: 80, Honorable: 70, Clever: 55, Charmer: 45 }, unlockFlag: "job_champion" },
+      { name: "Savior of the Realm", requirements: { Brave: 99, Dominant: 95, Honorable: 95, Charmer: 80, Clever: 75 }, storyFlag: "citySaved", unlockFlag: "job_savior_of_realm" }
+    ]
+  },
+  artist: {
+    name: "Artist",
+    tiers: [
+      { name: "Street Performer", requirements: { Playful: 15, Charmer: 15, Affectionate: 10 }, unlockFlag: "job_street_performer" },
+      { name: "Troubadour", requirements: { Playful: 35, Charmer: 35, Affectionate: 25, Clever: 20 }, unlockFlag: "job_troubadour" },
+      { name: "Virtuoso", requirements: { Playful: 60, Charmer: 55, Affectionate: 50, Clever: 40, Honorable: 30 }, unlockFlag: "job_virtuoso" },
+      { name: "Grand Maestro", requirements: { Playful: 80, Charmer: 75, Affectionate: 70, Clever: 60, Honorable: 55, Brave: 30 }, unlockFlag: "job_grand_maestro" },
+      { name: "Muse of the Ages", requirements: { Playful: 99, Charmer: 95, Affectionate: 90, Clever: 80, Honorable: 70, Brave: 60 }, storyFlag: "createdMasterpiece", unlockFlag: "job_muse" }
+    ]
+  },
+  healer: {
+    name: "Healer",
+    tiers: [
+      { name: "Caretaker", requirements: { Affectionate: 20, Innocent: 15 }, unlockFlag: "job_caretaker" },
+      { name: "Herbalist", requirements: { Affectionate: 35, Innocent: 30, Clever: 20, Honorable: 20 }, unlockFlag: "job_herbalist" },
+      { name: "Spiritual Guide", requirements: { Affectionate: 60, Innocent: 55, Honorable: 40, Charmer: 30, Brave: 20 }, unlockFlag: "job_spiritual_guide" },
+      { name: "Miracle Worker", requirements: { Affectionate: 80, Innocent: 70, Honorable: 60, Clever: 55, Brave: 45 }, unlockFlag: "job_miracle_worker" },
+      { name: "Saint", requirements: { Affectionate: 99, Innocent: 95, Honorable: 90, Brave: 80, Clever: 70 }, storyFlag: "miracleEvent", unlockFlag: "job_saint" }
+    ]
+  },
+  prankster: {
+    name: "Prankster",
+    tiers: [
+      { name: "Class Clown", requirements: { Prankster: 20, Playful: 15, Mischievous: 15 }, unlockFlag: "job_class_clown" },
+      { name: "Jester", requirements: { Prankster: 40, Playful: 35, Mischievous: 30, Charmer: 25 }, unlockFlag: "job_jester" },
+      { name: "Master of Revels", requirements: { Prankster: 65, Playful: 55, Mischievous: 50, Charmer: 45, Clever: 35 }, unlockFlag: "job_master_of_revels" },
+      { name: "Festival King/Queen", requirements: { Prankster: 85, Playful: 75, Mischievous: 70, Charmer: 65, Clever: 55, Brave: 30 }, unlockFlag: "job_festival_king" },
+      { name: "Trickster Spirit", requirements: { Prankster: 99, Playful: 95, Mischievous: 90, Charmer: 85, Clever: 75 }, storyFlag: "legendaryPrank", unlockFlag: "job_trickster_spirit" }
+    ]
+  },
+  scholar: {
+  name: "Scholar",
+  tiers: [
+    { name: "Bookworm", requirements: { Clever: 15, Curious: 20 }, unlockFlag: "job_bookworm" },
+    { name: "Researcher", requirements: { Clever: 35, Curious: 35, Honorable: 20 }, unlockFlag: "job_researcher" },
+    { name: "Philosopher", requirements: { Clever: 55, Curious: 50, Honorable: 35, Charmer: 20 }, unlockFlag: "job_philosopher" },
+    { name: "Academician", requirements: { Clever: 75, Curious: 70, Honorable: 55, Charmer: 40 }, unlockFlag: "job_academician" },
+    { name: "Sage of the Age", requirements: { Clever: 95, Curious: 90, Honorable: 70, Charmer: 60 }, storyFlag: "publishedTreatise", unlockFlag: "job_sage_of_the_age" }
+  ]
+},
+
+merchant: {
+  name: "Merchant",
+  tiers: [
+    { name: "Market Hawker", requirements: { Clever: 15, Charmer: 15 }, unlockFlag: "job_market_hawker" },
+    { name: "Trader", requirements: { Clever: 30, Charmer: 25, Brave: 10 }, unlockFlag: "job_trader" },
+    { name: "Guildmaster", requirements: { Clever: 50, Charmer: 45, Brave: 25, Honorable: 20 }, unlockFlag: "job_guildmaster" },
+    { name: "Magnate", requirements: { Clever: 75, Charmer: 70, Brave: 40, Honorable: 35, Dominant: 30 }, unlockFlag: "job_magnate" },
+    { name: "Tycoon of Empires", requirements: { Clever: 95, Charmer: 90, Brave: 65, Honorable: 55, Dominant: 50 }, storyFlag: "marketDominated", unlockFlag: "job_tycoon" }
+  ]
+},
+
+diplomat: {
+  name: "Diplomat",
+  tiers: [
+    { name: "Envoy", requirements: { Charmer: 20, Honorable: 15 }, unlockFlag: "job_envoy_basic" },
+    { name: "Consul", requirements: { Charmer: 40, Honorable: 35, Clever: 20 }, unlockFlag: "job_consul" },
+    { name: "Ambassador", requirements: { Charmer: 65, Honorable: 60, Clever: 40, Brave: 20 }, unlockFlag: "job_ambassador" },
+    { name: "Grand Negotiator", requirements: { Charmer: 80, Honorable: 75, Clever: 60, Brave: 40, Dominant: 30 }, unlockFlag: "job_grand_negotiator" },
+    { name: "Peacemaker", requirements: { Charmer: 99, Honorable: 95, Clever: 85, Brave: 60, Dominant: 50 }, storyFlag: "peaceAchieved", unlockFlag: "job_peacemaker" }
+  ]
+},
+
+craftsman: {
+  name: "Craftsman",
+  tiers: [
+    { name: "Apprentice", requirements: { Clever: 10, Curious: 10 }, unlockFlag: "job_apprentice" },
+    { name: "Journeyman", requirements: { Clever: 25, Curious: 20, Honorable: 15 }, unlockFlag: "job_journeyman" },
+    { name: "Artisan", requirements: { Clever: 45, Curious: 35, Honorable: 30, Brave: 15 }, unlockFlag: "job_artisan" },
+    { name: "Guildmaster", requirements: { Clever: 70, Curious: 60, Honorable: 50, Brave: 30 }, unlockFlag: "job_guildmaster_craftsman" },
+    { name: "Legendary Maker", requirements: { Clever: 99, Curious: 85, Honorable: 70, Brave: 50 }, storyFlag: "craftedMasterpiece", unlockFlag: "job_legendary_maker" }
+  ]
+},
+
+spy: {
+  name: "Spy",
+  tiers: [
+    { name: "Eavesdropper", requirements: { Rogue: 15, Clever: 10 }, unlockFlag: "job_eavesdropper" },
+    { name: "Informer", requirements: { Rogue: 35, Clever: 25, Prankster: 15 }, unlockFlag: "job_informer" },
+    { name: "Infiltrator", requirements: { Rogue: 55, Clever: 40, Prankster: 30, Brave: 15 }, unlockFlag: "job_infiltrator" },
+    { name: "Shadow Agent", requirements: { Rogue: 80, Clever: 60, Prankster: 45, Brave: 30 }, unlockFlag: "job_shadow_agent" },
+    { name: "Master of Secrets", requirements: { Rogue: 99, Clever: 85, Prankster: 65, Brave: 50 }, storyFlag: "toppledRegime", unlockFlag: "job_master_of_secrets" }
+  ]
+},
+
+caretaker: {
+  name: "Caretaker",
+  tiers: [
+    { name: "Babysitter", requirements: { Affectionate: 10, Innocent: 10 }, unlockFlag: "job_babysitter" },
+    { name: "Nanny", requirements: { Affectionate: 25, Innocent: 20, Honorable: 10 }, unlockFlag: "job_nanny" },
+    { name: "House Matron", requirements: { Affectionate: 45, Innocent: 40, Honorable: 30, Clever: 10 }, unlockFlag: "job_house_matron" },
+    { name: "Community Guardian", requirements: { Affectionate: 65, Innocent: 60, Honorable: 50, Brave: 20 }, unlockFlag: "job_community_guardian" },
+    { name: "Matron Saint", requirements: { Affectionate: 99, Innocent: 90, Honorable: 80, Brave: 50 }, storyFlag: "communitySaved", unlockFlag: "job_matron_saint" }
+  ]
+},
+
+explorer: {
+  name: "Explorer",
+  tiers: [
+    { name: "Pathfinder", requirements: { Brave: 15, Curious: 20 }, unlockFlag: "job_pathfinder" },
+    { name: "Scout", requirements: { Brave: 35, Curious: 35, Clever: 15 }, unlockFlag: "job_scout" },
+    { name: "Trailblazer", requirements: { Brave: 55, Curious: 55, Clever: 35, Honorable: 15 }, unlockFlag: "job_trailblazer" },
+    { name: "Voyager", requirements: { Brave: 80, Curious: 70, Clever: 50, Honorable: 35 }, unlockFlag: "job_voyager" },
+    { name: "Seeker of Lost Worlds", requirements: { Brave: 99, Curious: 90, Clever: 70, Honorable: 55 }, storyFlag: "lostWorldDiscovered", unlockFlag: "job_seeker_lost_worlds" }
+  ]
+},
+
+defender: {
+  name: "Defender",
+  tiers: [
+    { name: "Watchman", requirements: { Brave: 20, Honorable: 20 }, unlockFlag: "job_watchman" },
+    { name: "Protector", requirements: { Brave: 40, Honorable: 35, Dominant: 20 }, unlockFlag: "job_protector" },
+    { name: "Sentinel", requirements: { Brave: 60, Honorable: 55, Dominant: 40, Clever: 25 }, unlockFlag: "job_sentinel" },
+    { name: "Warden", requirements: { Brave: 80, Honorable: 75, Dominant: 60, Clever: 45 }, unlockFlag: "job_warden" },
+    { name: "Legendary Guardian", requirements: { Brave: 99, Honorable: 95, Dominant: 85, Clever: 65 }, storyFlag: "cityDefended", unlockFlag: "job_legendary_guardian" }
+  ]
+}
+
+  // Add more job paths as needed!
+};
+
+const HYBRID_JOBS = [
+  // Existing:
+  {
+    key: "shadow_savant",
+    name: "Shadow Savant",
+    description: "You blend the cunning of a Phantom King and the wisdom of a Sage. Rumor says you could steal the crown and explain quantum mechanics at the same time.",
+    requiredJobs: ["job_phantom_king", "job_sage_of_wonders"],
+    unlockFlag: "job_shadow_savant",
+  },
+  {
+    key: "muse_of_mayhem",
+    name: "Muse of Mayhem",
+    description: "The Trickster Spirit and Muse have combined—now, your pranks are legend *and* art. The city laughs... and trembles.",
+    requiredJobs: ["job_trickster_spirit", "job_muse"],
+    unlockFlag: "job_muse_of_mayhem",
+  },
+  // New:
+  {
+    key: "lawless_saint",
+    name: "Lawless Saint",
+    description: "You are both Saint and Phantom King—a living contradiction: thief of hearts, savior of souls.",
+    requiredJobs: ["job_saint", "job_phantom_king"],
+    unlockFlag: "job_lawless_saint",
+  },
+  {
+    key: "artisan_of_secrets",
+    name: "Artisan of Secrets",
+    description: "As a Master of Revels and a Master of Secrets, you craft both laughter and lies with equal artistry.",
+    requiredJobs: ["job_master_of_revels", "job_master_of_secrets"],
+    unlockFlag: "job_artisan_of_secrets",
+  },
+  {
+    key: "hearth_and_blade",
+    name: "Hearth & Blade",
+    description: "Legendary Guardian and Matron Saint—your strength is matched only by your care.",
+    requiredJobs: ["job_legendary_guardian", "job_matron_saint"],
+    unlockFlag: "job_hearth_and_blade",
+  },
+  {
+    key: "miracle_magnate",
+    name: "Miracle Magnate",
+    description: "As Tycoon of Empires and Miracle Worker, you turn charity into prosperity, and business into legend.",
+    requiredJobs: ["job_tycoon", "job_miracle_worker"],
+    unlockFlag: "job_miracle_magnate",
+  },
+  {
+    key: "brilliant_voyager",
+    name: "Brilliant Voyager",
+    description: "Seeker of Lost Worlds and Sage of Wonders—you chart the unknown and unravel the universe’s mysteries.",
+    requiredJobs: ["job_seeker_lost_worlds", "job_sage_of_wonders"],
+    unlockFlag: "job_brilliant_voyager",
+  },
+  {
+    key: "festival_chancellor",
+    name: "Festival Chancellor",
+    description: "Grand Chancellor and Festival King/Queen—equal parts authority and fun.",
+    requiredJobs: ["job_grand_chancellor", "job_festival_king"],
+    unlockFlag: "job_festival_chancellor",
+  },
+  // Mythic/Triple-Class Example:
+  {
+    key: "polymath_paragon",
+    name: "Polymath Paragon",
+    description: "You have achieved Sage of Wonders, Muse, and Savior of the Realm—a living legend of art, science, and heroism.",
+    requiredJobs: ["job_sage_of_wonders", "job_muse", "job_savior_of_realm"],
+    unlockFlag: "job_polymath_paragon",
+  },
+  {
+    key: "foolsgold_oracle",
+    name: "Fool’s Gold Oracle",
+    description: "You are both Trickster Spirit, Tycoon, and Sage of the Age—fortune teller, fortune maker, and trickster prophet.",
+    requiredJobs: ["job_trickster_spirit", "job_tycoon", "job_sage_of_the_age"],
+    unlockFlag: "job_foolsgold_oracle",
+  },
+    {
+    key: "eternal_founder",
+    name: "Eternal Founder",
+    description: "Guildmaster, Sage of the Age, and Savior of the Realm—your vision built the world, your wisdom guides it, your courage saves it.",
+    requiredJobs: ["job_guildmaster", "job_sage_of_the_age", "job_savior_of_realm"],
+    unlockFlag: "job_eternal_founder",
+    },
+    {
+    key: "courtly_trickster",
+    name: "Courtly Trickster",
+    description: "Festival King, Grand Chancellor, and Trickster Spirit—ruler, prankster, and master of revels, your court is legendary for chaos and celebration.",
+    requiredJobs: ["job_festival_king", "job_grand_chancellor", "job_trickster_spirit"],
+    unlockFlag: "job_courtly_trickster",
+    },
+    {
+    key: "saint_of_the_hidden",
+    name: "Saint of the Hidden",
+    description: "Matron Saint, Master of Secrets, and Shadowmaster—protector of the lost and forgotten, unseen guardian of the city’s darkest corners.",
+    requiredJobs: ["job_matron_saint", "job_master_of_secrets", "job_shadowmaster"],
+    unlockFlag: "job_saint_of_the_hidden",
+    },
+    {
+    key: "song_of_ages",
+    name: "Song of Ages",
+    description: "Muse, Grand Maestro, and Sage of the Age—your music outlasts empires, your poetry outlives kings.",
+    requiredJobs: ["job_muse", "job_grand_maestro", "job_sage_of_the_age"],
+    unlockFlag: "job_song_of_ages",
+    },
+    {
+    key: "warlord_of_wonders",
+    name: "Warlord of Wonders",
+    description: "Savior of the Realm, Court Engineer, and Shadowmaster—your inventions win wars, your leadership bends the impossible to your will.",
+    requiredJobs: ["job_savior_of_realm", "job_court_engineer", "job_shadowmaster"],
+    unlockFlag: "job_warlord_of_wonders",
+    },
+    {
+    key: "oracle_of_three_paths",
+    name: "Oracle of Three Paths",
+    description: "Saint, Tycoon, and Muse—the world’s richest sage, whose charity, wisdom, and artistry make kingdoms rise and fall.",
+    requiredJobs: ["job_saint", "job_tycoon", "job_muse"],
+    unlockFlag: "job_oracle_of_three_paths",
+    },
+    {
+    key: "indomitable_herald",
+    name: "Indomitable Herald",
+    description: "Legendary Guardian, Grand Negotiator, and Master of Secrets—the unbreakable wall, the voice of reason, and the unseen hand.",
+    requiredJobs: ["job_legendary_guardian", "job_grand_negotiator", "job_master_of_secrets"],
+    unlockFlag: "job_indomitable_herald",
+    },
+    {
+    key: "blessed_storm",
+    name: "Blessed Storm",
+    description: "Seeker of Lost Worlds, Miracle Worker, and Festival King/Queen—you bring change, healing, and celebration wherever you go.",
+    requiredJobs: ["job_seeker_lost_worlds", "job_miracle_worker", "job_festival_king"],
+    unlockFlag: "job_blessed_storm",
+    },
+    {
+    key: "grand_polyarch",
+    name: "Grand Polyarch",
+    description: "Polymath Paragon, Oracle of Three Paths, and Lawless Saint—there’s nothing you can’t become, no legend you can’t claim.",
+    requiredJobs: ["job_polymath_paragon", "job_oracle_of_three_paths", "job_lawless_saint"],
+    unlockFlag: "job_grand_polyarch",
+    },
+    {
+    key: "infinite_jester",
+    name: "Infinite Jester",
+    description: "Trickster Spirit, Master of Revels, and Muse of Mayhem—the joke is reality, and reality is your playground.",
+    requiredJobs: ["job_trickster_spirit", "job_master_of_revels", "job_muse_of_mayhem"],
+    unlockFlag: "job_infinite_jester",
+    },
+    {
+    key: "legend_born_of_every_age",
+    name: "Legend Born of Every Age",
+    description: "Prodigy as a child, Maestro as an artist, Savior as a hero, Sage as a thinker—you are the sum of every legend, the echo of every age.",
+    requiredJobs: [
+        "job_child_prodigy", // This one would need to be defined, or just use job_bookworm or job_sage_of_the_age for now
+        "job_grand_maestro",
+        "job_savior_of_realm",
+        "job_sage_of_wonders"
+    ],
+    unlockFlag: "job_legend_born_of_every_age",
+    },
+    {
+    key: "mother_of_miracles",
+    name: "Mother of Miracles",
+    requiredJobs: [
+        "job_miracle_worker",
+        "job_matron_saint",
+        "job_saint",
+        "job_caretaker"
+    ],
+    description: "Healer, caretaker, saint, and miracle worker—your compassion is so great it seems to shape fate itself.",
+    unlockFlag: "job_mother_of_miracles",
+    },
+    {
+    key: "phantom_lawbringer",
+    name: "Phantom Lawbringer",
+    description: "The ultimate paradox—champion of justice and chaos, master thief and legendary guardian.",
+    requiredJobs: [
+        "job_legendary_guardian",
+        "job_phantom_king",
+        "job_grand_chancellor",
+        "job_master_of_secrets"
+    ],
+    unlockFlag: "job_phantom_lawbringer",
+    },
+    {
+    key: "ultimate_scholar_wanderer",
+    name: "Ultimate Scholar-Wanderer",
+    description: "Scholar, explorer, sage, and seeker—your curiosity has no bounds, your wisdom changes the world.",
+    requiredJobs: [
+        "job_scholar", // adjust if needed
+        "job_seeker_lost_worlds",
+        "job_sage_of_the_age",
+        "job_pathfinder"
+    ],
+    unlockFlag: "job_ultimate_scholar_wanderer",
+    },
+    {
+    key: "ruler_of_every_masque",
+    name: "Ruler of Every Masque",
+    description: "Courtier, trickster, festival king, and muse—you rule the city’s heart, its secrets, and its laughter.",
+    requiredJobs: [
+        "job_courtier", // or job_grand_chancellor
+        "job_trickster_spirit",
+        "job_festival_king",
+        "job_muse"
+    ],
+    unlockFlag: "job_ruler_of_every_masque",
+    },
+    {
+    key: "tyrant_of_silver_and_gold",
+    name: "Tyrant of Silver and Gold",
+    description: "Magnate, diplomat, shadowmaster, and chancellor—your power moves markets, courts, and the underworld alike.",
+    requiredJobs: [
+        "job_magnate",
+        "job_grand_negotiator",
+        "job_shadowmaster",
+        "job_grand_chancellor"
+    ],
+    unlockFlag: "job_tyrant_of_silver_and_gold",
+    },
+    {
+    key: "prankster_of_legend",
+    name: "Prankster of Legend",
+    description: "Class clown, master of revels, jester, and trickster spirit—your antics have become prophecy.",
+    requiredJobs: [
+        "job_class_clown",
+        "job_master_of_revels",
+        "job_jester",
+        "job_trickster_spirit"
+    ],
+    unlockFlag: "job_prankster_of_legend",
+    },
+    {
+    key: "iron_hearts_champion",
+    name: "Iron Heart’s Champion",
+    description: "Knight, guardian, defender, and savior—your courage and honor are written in every legend.",
+    requiredJobs: [
+        "job_knight",
+        "job_legendary_guardian",
+        "job_defender",
+        "job_savior_of_realm"
+    ],
+    unlockFlag: "job_iron_hearts_champion",
+    },
+    {
+    key: "child_of_every_guild",
+    name: "Child of Every Guild",
+    description: "Bookworm, apprentice, street performer, and pathfinder—you started at the bottom of every path, and now you’re at the top.",
+    requiredJobs: [
+        "job_bookworm",
+        "job_apprentice",
+        "job_street_performer",
+        "job_pathfinder"
+    ],
+    unlockFlag: "job_child_of_every_guild",
+    }
+];
+
+// --- Helper: Check Rep Requirements ---
+function meetsRequirements(rep, reqs, storyFlags = {}) {
+  for (const [key, val] of Object.entries(reqs)) {
+    if ((rep[key] || 0) < val) return false;
+  }
+  // Optionally check story flags (for legendary tiers)
+  if (reqs.storyFlag && !storyFlags[reqs.storyFlag]) return false;
+  return true;
+}
+
+// --- Helper: Try to Unlock Jobs/Tiers (call after any rep change!) ---
+function checkJobUnlocks(rep, storyFlags, unlockedJobs = {}) {
+  for (const [pathKey, path] of Object.entries(JOB_PATHS)) {
+    for (let i = 0; i < path.tiers.length; i++) {
+      const tier = path.tiers[i];
+      if (
+        meetsRequirements(rep, tier.requirements, storyFlags) &&
+        !unlockedJobs[tier.unlockFlag]
+      ) {
+        unlockedJobs[tier.unlockFlag] = true;
+        // Optionally, trigger a narrative/event here!
+        // Example: output.push(`🎉 New job unlocked: ${tier.name} (${path.name})!`);
+      }
+    }
+  }
+  return unlockedJobs;
+}
+
+globalThis.actionMinutes = actionMinutes;
+globalThis.actionRegexList = actionRegexList;
+globalThis.getCompoundActionMinutes = getCompoundActionMinutes;

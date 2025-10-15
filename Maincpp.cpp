@@ -1,5 +1,6 @@
 #include <atomic>
 #include <bits/stdc++.h>
+#include <iterator>
 #include <string>
 #include <vector>
 using namespace std;
@@ -17,8 +18,8 @@ typedef vector<pll> vpll;
 typedef map<int, int> mii;
 typedef map<ll, ll> mll;
 
-const int MOD = 1000000007;
-const int MOD2 = 998244353;
+const ll MOD = 1000000007;
+const ll MOD2 = 998244353;
 const double EPS = 1e-9;
 const double PI = acos(-1);
 const ll INF = 1000000001;
@@ -51,39 +52,25 @@ void fast_io() {
  */
 
 void solve() {
-  ll n, w;
-  cin >> n >> w;
-  vl weight(n), value(n);
-  ll sumv = 0;
+  ll n;
+  cin >> n;
+  vl a(n + 1, 0);
+  ll tot = 0;
   rep(i, 0, n) {
-    cin >> weight[i] >> value[i];
-    sumv += value[i];
+    ll temp;
+    cin >> temp;
+    tot += temp;
+    if (temp == 0)
+      tot++;
   }
-
-  vl dp(sumv + 1, INF);
-  dp[0] = 0;
-  rep(i, 0, n) {
-    repr(j, sumv, value[i]) {
-      dp[j] = min(dp[j], dp[j - value[i]] + weight[i]);
-    }
-  }
-
-  ll ans = 0;
-
-  rep(i, 0, sumv + 1) {
-    if (dp[i] <= w) {
-      ans = i;
-    }
-  }
-
-  cout << ans << "\n";
+  cout << tot << endl;
 }
 
 int main() {
   fast_io();
   int t;
-  t = 1;
-  // cin >> t;
+  // t = 1;
+  cin >> t;
   for (int i = 1; i <= t; i++)
     solve();
   return 0;

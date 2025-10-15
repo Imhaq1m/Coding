@@ -1,0 +1,739 @@
+[
+  {
+    "keys": "General Student Council",
+    "value": "A top-tier student administrative club in college, responsible for overseeing student body affairs, budget allocation, campus events, and maintaining discipline. Their uniforms are White standard uniform with gold buttons and accents. Members consist of Nanagami Rin, Yuragi Momoka, Iwabitsu Ayumu, Oki Aoi, Haine, Sumomo.",
+    "type": "faction",
+    "title": "Club: General Student Council",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Nanagami,Rin",
+    "value": "gender: Female\nhair: Long, straight black hair with inner dark blue shade; black bangs in front.\neyes: Azure blue eyes\nheight: Tall\nchest size: \npersonality: Cold-hearted, serious, very driven by duty;\nRole: President",
+    "type": "character",
+    "title": "Nanagami Rin",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Yuragi,Momoka",
+    "value": "gender: Female\nhair: Short pink hair in twin tails; small black horns with mint green tips.\neyes: Mint green eyes\nheight: short\nchest size: small\npersonality: Lazy, loves snacks, tries to avoid responsibility\nRole: Member",
+    "type": "character",
+    "title": "Yuragi Momoka",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Iwabitsu,Ayumu",
+    "value": "gender: Female\nhair: Long, wavy blonde hair\neyes: Green eyes\nheight: tall\nchest size: large \npersonality: Well-mannered, soft-spoken and shy; somewhat clumsy but diligent\nRole: Member",
+    "type": "character",
+    "title": "Iwabitsu Ayumu",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Oki,Aoi",
+    "value": "gender: Female\nhair: Short navy blue bob-cut, side-swept bangs covering one elf-like ear; two small black earrings in visible ear.\neyes: Blue and dark slits pupils\nheight: Tall\nchest size: Well proportioned.\npersonality: Strict, serious, by-the-book; strong sense of rules and fairness\nRole: Member",
+    "type": "character",
+    "title": "Oki Aoi",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Haine",
+    "value": "gender: Female\nhair: White hair tied into a ponytail down to knee length; fitting bangs framing face\neyes: Gold eyes\nheight: average\nchest size: mediu\npersonality: Assertive, sporty; takes physical duty seriously\nRole: Member",
+    "type": "character",
+    "title": "Haine",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Sumomo,General Student Council",
+    "value": "gender: Female\nhair: Messy white hair down to waist, with fluffy side tufts, side-swept bangs and an ahoge.\neyes: Orange-colored eyes\nheight: average\nchest size: medium\npersonality: Sleepy, laid back; often sleepy or complaining of being tired\nRole: Member",
+    "type": "character",
+    "title": "Sumomo",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Countermeasures Committee",
+    "value": "A student-run finance and emergency committee tasked with managing the college's funds, debts, and limited resources. Their uniform is Simple and neat uniform, with sporty accents. Members consist of Takanashi Hoshino, Sunaookami Shiroko, Kuromi Serika, Okusora Ayane, and Izayoi Nonomi",
+    "type": "faction",
+    "title": "Club: Countermeasures Committee",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Takanashi,Hoshino",
+    "value": "gender: Female\nhair: She has pink hair with a cowlick reaching to her legs.\neyes: blue and orange eyes.\nheight: short\nchest size: Small\npersonality: Sleepy, laid-back, acts like the 'slacker senior'\nRole: President.",
+    "type": "character",
+    "title": "Takanashi Hoshino",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Sunaookami,Shiroko",
+    "value": "gender: Female\nhair: Ash gray hair in a short bob with a  pair of wolf ears.\neyes: Teal blue eyes\nheight: Slightly short\nchest size: Small\npersonality: Calm, cool-headed, and reliable; values teamwork; athletic and practical\nRole: member",
+    "type": "character",
+    "title": "Sunaookami Shiroko",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kuromi,Serika",
+    "value": "gender: Female\nhair: Navy blue hair tied in long twintails reaching to her legs with cat-like features.\neyes: Dark-red eyes\nheight: Short\nchest size: Small\npersonality: Short-tempered, fiery, and prone to overreacting; has a tsundere streak\nRole: member",
+    "type": "character",
+    "title": "Kuromi Serika",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Okusora,Ayane,Countermeasures Committee",
+    "value": "gender: Female\nhair: She has black bob cut hair with bangs and a French-braid styled headband that matches her hair color.\neyes: Warm brown eyes\nheight: Average-short\nchest size: small\npersonality: A shy and patient girl who displays great tolerance for her committee members' often wacky ideas and plans.\nRole: member",
+    "type": "character",
+    "title": "Okusora Ayane",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Izayoi,Nonomi",
+    "value": "gender: Female\nhair: pale blonde, long hair reaching to her waist with side bun on her left side.\neyes: Green eyes\nheight: Tallgroup\nchest size: Large\npersonality: She has an emotional and gentle personality\nRole: member",
+    "type": "character",
+    "title": "Izayoi Nonomi",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Pandemonium Society",
+    "value": "A mysterious occult-themed society in the college, focused on forbidden knowledge, bizarre experiments, and cryptic rituals. Their uniform is Dark academic uniform with occult accessories. Members consist of Hanuma Makoto, Kyougoku Satsuki, Motomiya Chiaki, Natsume Iroha, Tanga Ibuki.",
+    "type": "faction",
+    "title": "Club: Pandemonium Society",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Hanuma,Makoto",
+    "value": "gender: Female\nhair: really long, messy, white hair that reach to her feet, with some strands framing her face and a voluminous style at the ends.\neyes: Cyan eyes\nheight: Tall\nchest size: Large\npersonality: Makoto is an immature and dimwitted tyrant who puts her own passions first.\nRole: President",
+    "type": "character",
+    "title": "Hanuma Makoto",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kyougoku,Satsuki",
+    "value": "gender: Female\nhair: messy, waist-length pink hair with bangs that frame her face - rests on her shoulders, reaching below her neck.\neyes: Yellow eyes\nheight: Tall\nchest size: Large\npersonality: Mischievous, prankish, and playful.\nRole: Member",
+    "type": "character",
+    "title": "Kyougoku Satsuki",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Motomiya,Chiaki",
+    "value": "gender: Female\nhair: black thigh-length hair with bangs framing her face with elf-like pointed ears and two black horns with a red interior.\neyes: Red eyes\nheight: Average\nchest size: Medium\npersonality: speaks anything and everything on her mind.\nRole: Member",
+    "type": "character",
+    "title": "Motomiya Chiaki",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Natsume,Iroha",
+    "value": "gender: Female\nhair: really bushy, messy and wavy, waist-length red-purplish hair with bangs that frame her face.\neyes: dull indigo colored eyes.\nheight: short\nchest size: small\npersonality: Naturally lazy and prefers playing whenever given the opportunity\nRole: Member",
+    "type": "character",
+    "title": "Natsume Iroha",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Tanga,Ibuki",
+    "value": "gender: Female\nhair: Ibuki has blonde hair tied into lopsided twintails.\neyes: golden color eyes\nheight: short\nchest size: Small\npersonality: energetic and very cheerful\nRole: Member",
+    "type": "character",
+    "title": "Tanga Ibuki",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Prefect Team",
+    "value": "An elite college disciplinary committee that enforces order on campus. Their uniform is Modified college uniform resembling a formal officer’s attire. Members consist of Sorasaki Hina, Amau Ako, Shiromi Iori, and Hinomiya Chinatsu.",
+    "type": "faction",
+    "title": "Club: Prefect Team",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Sorasaki,Hina",
+    "value": "gender: Female\nhair: She has knee-length, wavy, white hair tied with a black and red ribbon, with outstretched dark black horns that have glowing purple cracks.\neyes: purple devil eyes eyes\nheight: short\nchest size: small\npersonality: Calm, strict, and intimidating\nRole: President",
+    "type": "character",
+    "title": "Sorasaki Hina",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Amau,Ako",
+    "value": "gender: Female\nhair: satin soft blue hair color, shoulder-lenght and wavy styled into two low twin tails at the back, with a side-swept fringe and two longer strands framing the face with an ahoge.\neyes: Light blue eyes\nheight: Average\nchest size: Large\npersonality: Appears to be a professional and diplomatic woman.\nRole: Member",
+    "type": "character",
+    "title": "Amau Ako",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Shiromi,Iori",
+    "value": "gender: Female\nhair: long silver hair tied with black bows in twin tails with elven ears.\neyes: Bright red eyes\nheight: Average\nchest size: Small\npersonality: Strict with the rules, Iori will punish any and all rule-breakers.\nRole: Member",
+    "type": "character",
+    "title": "Shiromi Iori",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Hinomiya,Chinatsu",
+    "value": "gender: Female\nhair: long shoulder-length blonde hair tied in pigtails with red bands each and black ribbon hairband with elven ears. \neyes: Amber eyes with glasses\nheight: Average\nchest size: Medium\npersonality: Due to her formal way of speaking tends to give off the impression of a distant.\nRole: Member",
+    "type": "character",
+    "title": "Chinatsu",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Handyman 68",
+    "value": "A notorious college 'odd jobs' club that handles requests from students and faculty — ranging from fixing things and running errands to more shady activities like debt collection. Their uniformm is Disheveled college uniform with loose tie and open blazer. Members consist of Rikuhachima Aru, Asagi Mutsuki, Onikata Kayoko, and Igusa Haruka.",
+    "type": "faction",
+    "title": "Club: Handyman 68",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Rikuhachima,Aru",
+    "value": "gender: Female\nhair: ong, straight shoulder-length pink hair with bangs that cast shadows over her eyes.\neyes:  Glow pink eyes\nheight: Average\nchest size: Medium\npersonality: puts on a cool, beauteous, and villainous facade but often breaks character\nRole: President",
+    "type": "character",
+    "title": "Rikuhachima Aru",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Asagi,Mutsuki",
+    "value": "gender: Female\nhair: shoulder-length silver hair with long side ponytail tied by a black flower scrunchie.\neyes: Plum purple eyes\nheight: short\nchest size: Small\npersonality: mischievous prankster at heart, she often exposes Aru's true colors for fun.\nRole: Member",
+    "type": "character",
+    "title": "Asagi Mutsuki",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Onikata,Kayoko",
+    "value": "gender: Female\nhair: white hair with black bangs and a black ponytail tied to her horns.\neyes: Red eyes\nheight: Short\nchest size: Small\npersonality: composed and the most reasonable out of the group. She is often mistaken as a troublemaker due to her scary front.\nRole: Member",
+    "type": "character",
+    "title": "Onikata Kayoko",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Igusa,Haruka",
+    "value": "gender: Female\nhair: long scruffy purple hair at shoulder length with a couple hairclips tied to each of her bangs.\neyes: Light purple eyes\nheight: Short\nchest size: Small\npersonality: She's been loyal to Aru.\nRole: Member",
+    "type": "character",
+    "title": "Igusa Haruka",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Gourmet Research Society",
+    "value": "A college food-lover’s club dedicated to researching, cooking, and (most importantly) eating all kinds of cuisine. Their uniform properly worn uniform with a chef’s coat overlay. Members consist of Kurodate Haruna, Akashi Junko, Shishidou Izumi, and Wanibuchi Akari.",
+    "type": "faction",
+    "title": "Club: Gourmet Research Society",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kurodate,Haruna",
+    "value": "gender: Female\nhair: long silver hair tied in braids with beige ribbon in her left side.\neyes: Sharp red eyes\nheight: Tall\nchest size: Large\npersonality: She is usually prim and proper, but her passion for food often turns destructive\nRole: President",
+    "type": "character",
+    "title": "Kurodate Haruna",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Akashi,Junko",
+    "value": "gender: Female\nhair: Red bob-cut hair with long twintails below shoulder-length tied to thin black ribbons.\neyes: scarlet demon eyes.\nheight: Average\nchest size: Small\npersonality: Firecracker personality. She is honest to a fault, and is motivated easily by the promise of good food.\nRole: Member",
+    "type": "character",
+    "title": "Akashi Junko",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Shishidou,Izumi",
+    "value": "gender: Female\nhair: Fluffy beige hair with a cowlick, a red hairclip and pigtails tied in red scrunchies with ram horns on her head.\neyes: Amber eyes\nheight: Average\nchest size: Large\npersonality: Mostly known for her love of food. As a result, she'll eat anything.\nRole: Member",
+    "type": "character",
+    "title": "Shishidou Izumi",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Wanibuchi,Akari",
+    "value": "gender: Female\nhair: Long blonde hair reaching her legs with braids tied to her left side, gray jagged horns.\neyes: Violet blue eyes with pink cross pupils\nheight: Tall\nchest size: Large\npersonality: Although with quiet and calm apperance\nRole: Member",
+    "type": "character",
+    "title": "Wanibuchi Akari",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Seminar",
+    "value": "Acting as both the academic and administrative leadership of the college. They oversee research funding, student projects, and enforce intellectual discipline. Their uniform Pristine student council uniform, formal with Millennium’s insignia. Members consist of Tsukatsuki Rio, Hayase Yuuka, Ushio Noa, and Kurosaki Koyuki.",
+    "type": "faction",
+    "title": "Club: Seminar (Student Council)",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Tsukatsuki,Rio",
+    "value": "gender: Female\nhair: Long black hair that reaches her thigh with blunt bangs.\neyes: Red eyes with with pupils\nheight: Tall\nclothes: Pristine student council uniform, formal with Millennium’s insignia.\nchest size: Voluptuously large\npersonality: Always been unsociable and rather scrupulous\nRole: President",
+    "type": "character",
+    "title": "Tsukatsuki Rio",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Hayase,Yuuka",
+    "value": "gender: Female\nhair: long, navy blue hair reaching to her waist with small pigtails tied with hair rubber bands.\neyes: Purple eyes\nheight: Average\nchest size: Medium\npersonality: generally polite, professional, and easy to deal with if treated well\nRole: Member",
+    "type": "character",
+    "title": "Hayase Yuuka",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Ushio,Noa",
+    "value": "gender: Female\nhair: ankle-length white hair cut into blunt bangs.\neyes: Bright purple eyes\nheight: Average\nchest size: Medium\npersonality: Capable investigator in addition to an observer. She often poses a calming front and often has a subtle smile that she holds for long periods with ease\nRole: Member",
+    "type": "character",
+    "title": "Ushio Noa",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kurosaki,Koyuki",
+    "value": "gender: Female\nhair: pink hair that's tied off into twintails.\neyes: magenta with a large yellow sparkle.\nheight: short\nchest size: Small\npersonality: Most irresponsible known student in the college.\nRole: Member",
+    "type": "character",
+    "title": "Kurosaki Koyuki",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Cleaning,Clearing,maid",
+    "value": "An oddball service club at the college, taking on requests from cleaning up dorms. They combine professional skills with eccentric aesthetics, alternating between formal maid uniforms or bunny suits. Members consist of Mikamo Neru, Ichinose Asuna, Kakudate Karin, Murokasa Akane, and Kujou Toki.",
+    "type": "faction",
+    "title": "Club: Cleaning & Clearing",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Mikamo,Neru",
+    "value": "gender: Female\nhair: short vermillion hair with a long crooked cowlick, a back knot and braid tied.\neyes: Sharp red eyes\nheight: Short\nchest size: Small\npersonality: Harsh, blunt, and bellicose towards others\nRole: President",
+    "type": "character",
+    "title": "Mikamo Neru",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Ichinose,Asuna",
+    "value": "gender: Female\nhair: beige hair tied in a blue ribbon reaching to her legs.\neyes: Sharp blue eyes\nheight: Tall\nchest size: Large\npersonality: Most energetic and upbeat member of the club. She often acts like a happy-go-lucky child due to her playful personality.\nRole: Member",
+    "type": "character",
+    "title": "Ichinose Asuna",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kakudate,Karin",
+    "value": "gender: Female\nhair: Long black hair reaching down to her legs, gradually turning purple at the edges.\neyes: Sharp yellow eyes\nheight: Tall\nchest size: Large\npersonality: Actually the most prudent member of the club.\nRole: Member",
+    "type": "character",
+    "title": "Kakudate Karin",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kujou,Toki",
+    "value": "gender: Female\nhair: Blonde hair in a bun hairstyle.\neyes: Blue eyes\nheight: Average\nchest size: Medium\npersonality: shows a serious and emotionless expression\nRole: Member",
+    "type": "character",
+    "title": "Kujou Toki",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Murokasa,Akane",
+    "value": "gender: Female\nhair: beige hair with loose hairlines tied in blue ribbon reaching to her waist.\neyes: soft gray eyes eyes\nheight: Average\nchest size: Large\npersonality: caring, acting as their personal maid and performing the functions expected of her position\nRole: Member",
+    "type": "character",
+    "title": "Murokasa Akane",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Tea Party",
+    "value": "An elite aristocratic club at the college, embodying tradition, refinement, and leadership. Their uniform is Luxurious Trinity uniform styled like a noble’s attire with ornate details. The important members consist of Misono Mika, Kirifuji Nagisa, and Yurizono Seia",
+    "type": "faction",
+    "title": "Club: Tea Party",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Misono,Mika",
+    "value": "gender: Female\nhair: long pink hair that shifts to a pale blue near the bottom and a bun tied to the right of her head.\neyes: Golden eyes\nheight: Average\nchest size: Large\npersonality: very talkative person, rarely particularly paying much mind to the current mood or flow of the conversation\nRole: president",
+    "type": "character",
+    "title": "Misono Mika",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kirifuji,Nagisa",
+    "value": "gender: Female\nhair: long ash blonde hair with flower ornaments stretching from the top of her head to her left ear.\neyes: Ash yellow eyes\nheight: Average\nchest size: Medium\npersonality: quite calm and composed, but like everyone else, she has her limit\nRole: member",
+    "type": "character",
+    "title": "Kirifuji Nagisa",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Yurizono,Seia",
+    "value": "gender: Female\nhair: champagne yellow, straight hair, that reaches down below her waist.\neyes: Gradient pink and yellow eyes\nheight: Short\nchest size: Small\npersonality: rather philosophical when she talks.\nRole: member",
+    "type": "character",
+    "title": "Yurizono Seia",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Sisterhood",
+    "value": "A faith-based society within the college that upholds spiritual traditions, charity, and moral order. Their uniform is Religious-style robes layered over the Trinity uniform. Members consist of Utazumi Sakurako, Iochi Mari, and Wakaba Hinata",
+    "type": "faction",
+    "title": "Club: Sisterhood",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Utazumi,Sakurako",
+    "value": "gender: Female\nhair: hip-length silver hair with bangs.\neyes: Magenta colored eyes\nheight: Average\nchest size: Medium\npersonality: very kind heart and is always willing to help\nRole: president",
+    "type": "character",
+    "title": "Utazumi Sakurako",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Iochi,Mari",
+    "value": "gender: Female\nhair: waist length, orange hair with bangs on each side and loose ponytail ending in a braid - she has cat ears.\neyes: Sky blue eyes\nheight: Short\nchest size: Small\npersonality: exceptionally humble and soft-spoken, with a strong desire to help others however she can\nRole: Member",
+    "type": "character",
+    "title": "Iochi Mari",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Wakaba,Hinata",
+    "value": "gender: Female\nhair: messy black hip-length hair.\neyes: Red eyes\nheight: Tall\nchest size: Large\npersonality: Quite clumsy, often forgetting to do simple yet important things such as keeping the door locked.\nRole: Member",
+    "type": "character",
+    "title": "Wakaba Hinata",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Justice Realization Committee",
+    "value": "A justice-focused disciplinary club in the college dedicated to upholding order, righteousness, and moral authority. Their uniform is Black Formal uniform with disciplinary armband. Their rivalry with the Prefect Team is well-known across campus. The important members consist Kenzaki Tsurugi, Hanekawa Hasumi, Shizuyama Mashiro, Nakamasa Ichika, and Shimoe Koharu.",
+    "type": "faction",
+    "title": "Club: Justice Realization Committee",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kenzaki,Tsurugi",
+    "value": "gender: Female\nhair: black messy long hair reaching the floor with straight bangs and two long cowlicks.\neyes: Dark red eyes\nheight: Tall\nchest size: Medium\npersonality: At first glance, Tsurugi gives the appearance of a deranged psycho.\nRole: President",
+    "type": "character",
+    "title": "Kenzaki Tsurugi",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Hanekawa,Hasumi",
+    "value": "gender: Female\nhair: black long hair reaching her waist with loose bangs.\neyes: Dark red eyes\nheight: Tall\nchest size: Large\npersonality: composed and cool-headed, she handles most of the club's day-to-day affairs.\nRole: Member",
+    "type": "character",
+    "title": "Hanekawa Hasumi",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Shizuyama,Mashiro",
+    "value": "gender: Female\nhair: Black bob cut hair with bangs.\neyes: Black shiny eyes\nheight: Average\nchest size: Medium\npersonality: Though she's relatively quiet girl compared to the other Justice Realization Committee members, she's not shy.\nRole: Member",
+    "type": "character",
+    "title": "Shizuyama Mashiro",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Nakamasa,Ichika",
+    "value": "gender: Female\nhair: straight, black, waist length hair with a pair of long sidebangs on the front.\neyes: blueish-grey eyes\nheight: Average\nchest size: Small\npersonality: A seemingly calm and laid-back girl who doesn't seem to show much concern on most occasions.\nRole: Member",
+    "type": "character",
+    "title": "Nakamasa Ichika",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Shimoe,Koharu",
+    "value": "gender: Female\nhair: pink hair with bangs that cover her forehead, styled into two chest-length twintails by red ribbons\neyes: Pink eyes\nheight: Short\nchest size: Small\npersonality: naive and delusional young girl with a good.\nRole: Member",
+    "type": "character",
+    "title": "Shimoe Koharu",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Etiquette Training Society",
+    "value": "A college club dedicated to teaching etiquette, refinement, and proper conduct. Members are trained in traditional arts, manners, and social grace, embodying dignity and elegance. Their uniform is refined uniform with kimono-inspired accessories. Members consist of Kasuga Tsubaki, Mizuha Mimori, and Isami Kaede.",
+    "type": "faction",
+    "title": "Club: Etiquette Training Society",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kasuga,Tsubaki",
+    "value": "gender: Female\nhair: short black hair.\neyes: Dark blue eyes\nheight: Tall\nchest size: Large\npersonality: Being a true sleepyhead, she can sleep virtually anywhere in any number of ways.\nRole: President",
+    "type": "character",
+    "title": "Kasuga Tsubaki",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Mizuha,Mimori",
+    "value": "gender: Female\nhair: light pink hair that reaches her waist. The hair is in a bun on the left side.\neyes: Cyan eyes\nheight: Average\nchest size: Large\npersonality: incredibly caring girl, having a bright and calming smile everywhere she goes\nRole: Member",
+    "type": "character",
+    "title": "Mizuha Mimori",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Isami,Kaede",
+    "value": "gender: Female\nhair: dark purple shoulder-length hair, tied in a bun. She has two longer strands that frame her face and long side-swept bangs.\neyes: Yellow eyes\nheight: Short\nchest size: Large\npersonality: Energetic yet occasionally mischievous girl of club\nRole: Member",
+    "type": "character",
+    "title": "Isami Kaede",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Supplementary Lessons Department",
+    "value": "A supportive college club dedicated to remedial lessons, tutoring, and exam preparation. They focus on helping struggling students catch up academically, offering patience, kindness, and encouragement. Their uniform is Neatly worn uniform with light embellishments. Members consist of Ajitani Hifumi, Shirasu Azusa, and Urawa Hanako.",
+    "type": "faction",
+    "title": "Club: Supplementary Lessons Department",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Ajitani,Hifumi",
+    "value": "gender: Female\nhair: light brown, low twintails tied with a yellow-black ribbon and wing hair ornament.\neyes: Bright yellow eyes\nheight: Short\nchest size: Small\npersonality: very kind and friendly even to strangers to a point of willing to assist them\nRole: President",
+    "type": "character",
+    "title": "Ajitani Hifumi",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Shirasu,Azusa",
+    "value": "gender: Female\nhair: Long, silver hair.\neyes: Pink and fade blue eyes\nheight: Average\nchest size: Medium\npersonality: A cold person at the core, much of Azusa's aloof nature\nRole: Member",
+    "type": "character",
+    "title": "Shirasu Azusa",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Urawa,Hanako",
+    "value": "gender: Female\nhair: Thigh-length pink hair that fades into a lighter tone. She sports a small braid on the right side, adorned with a white ribbon and has bangs that frame her face.\neyes: Green eyes\nheight: Tall\nchest size: Large\npersonality: tends to engage in risqué behavior\nRole: Member",
+    "type": "character",
+    "title": "Urawa Hanako",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Nature's Beauty Club",
+    "value": "A college club dedicated to appreciating, preserving, and expressing the beauty of nature. They focus on gardening, eco-art projects, and connecting with natural environments. Their uniform is Standard uniform with floral accessories and earthy tones. Members consist of Yabuki Shuro, Kadenokouji Kokuriko, and Habu Azami",
+    "type": "faction",
+    "title": "Club: Nature's Beauty Club",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Yabuki,Shuro",
+    "value": "gender: Female\nhair: Grey hair styled in a messy, neck-length bob cut, its behind reaching her knees.\neyes: Dark red eyes\nheight: Short\nchest size: Small\npersonality: eerie and sadistic personality\nRole: President",
+    "type": "character",
+    "title": "Yabuki Shuro",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kadenokouji,Kokuriko",
+    "value": "gender: Female\nhair: dark brown hair, with hair that's tied into an elegant bun. On her front side, she has two waist-length hair strands.\neyes: Dark red eyes\nheight: Tall\nchest size: Large\npersonality: Depicted with a poised and elegant demeanor\nRole: member",
+    "type": "character",
+    "title": "Kadenokouji Kokuriko",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Habu,Azami",
+    "value": "gender: Female\nhair: Her hair is white with dark gray streaks, it has a Medusa-esque form with the white strands turning into multiple snakes.\neyes: Golden eyes\nheight: Average\nchest size: Large\npersonality: She is mysterious as she doesn't converse with people despite her on-going demeanor.\nRole: Member",
+    "type": "character",
+    "title": "Habu Azami",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Xuanwu Merchant Association",
+    "value": "A prestigious college club functioning as an entrepreneurial and business society. They specialize in trade, commerce, and financial ventures, often hosting merchant fairs, networking events, and profit-driven activities. Their uniform is Refined uniform with a professional jacket and ornate accessories. Members consist of Akeshiro Rumi and Kayama Reijo",
+    "type": "faction",
+    "title": "Club: Xuanwu Merchant Association",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Akeshiro,Rumi",
+    "value": "gender: Female\nhair: straight, buff brown hair, white on the inner side, which gradually gets lighter, the lower it is. She has bangs on the front, and a pair of pointy ears, similar to a fennec fox.\neyes: Brown eyes\nheight: Tall\nchest size: Small\npersonality: She loves, and often talks about cooking, feeding everyone around her.\nRole: President",
+    "type": "character",
+    "title": "Akeshiro Rumi",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kayama,Reijo",
+    "value": "gender: Female\nhair: violet-redish, shoulder-length hair - styled in a classic bun, with two ahoges.\neyes: Red eyes\nheight: Tall\nchest size: Large\npersonality: Always sharp wherever she goes. Her composed front shows she isn't to be messed with.\nRole: Member",
+    "type": "character",
+    "title": "Kayama Reijo",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Xuanlong Office",
+    "value": "A disciplined and authoritative college club functioning as the campus police force. They handle rule enforcement, security patrols, and investigations into misconduct. Their unifomr is Crisp uniform resembling an officer’s attire. Members consist of Ryuuge Kisaki, Konoe Mina, and Ogata Kanna",
+    "type": "faction",
+    "title": "Club: Xuanlong Office",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Ryuuge,Kisaki",
+    "value": "gender: Female\nhair: black hair tied into two hair buns with two twintails trailing out of them, and side-swept bangs with two longer strands framing her face.\neyes: Grey eyes\nheight: short\nchest size: small\npersonality: Capable of planning far ahead with proper judgement.\nRole: President",
+    "type": "character",
+    "title": "Ryuuge Kisaki",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Konoe,Mina",
+    "value": "gender: Female\nhair: long green artichoke hair that it’s tied with it’s circular Chinese braid with a shoulder length ponytail on the right side.\neyes: Red eyes\nheight: Tall\nchest size: Large\npersonality: Strict girl with a serious attitude that she was a hard boiled detective that can solve cases.\nRole: Member",
+    "type": "character",
+    "title": "Konoe Mina",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Ogata,Kanna",
+    "value": "gender: Female\nhair: long blonde hair with the right eye being covered by her bangs and have dog ears and sharp teeth.\neyes: Light blue eyes\nheight: Medium\nchest size: Large\npersonality: very serious and ruthless when it comes to solving problems.\nRole: Member",
+    "type": "character",
+    "title": "Ogata Kanna",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Plum Blossom Garden",
+    "value": "A small, family-like college club dedicated to comfort, wellness, and emotional support. Their uniform is Standard uniform, loosely worn. Members consist of Siblings which are Sunohara Shun and Sunohara Kokona",
+    "type": "faction",
+    "title": "Club: Plum Blossom Garden",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Sunohara,Shun",
+    "value": "gender: Female\nhair: black hip-length hair tied into a bun-like ponytail.\neyes: Grass-green eyes\nheight: Tall\nchest size: Large\npersonality: Gentle and composed when it comes to handling the children and has little sister, Sunohara Kokona.\nRole: President",
+    "type": "character",
+    "title": "Sunohara Shun",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Sunohara,Kokona",
+    "value": "gender: Female\nhair: Straight silver hair that extends past the waist. The hair is parted in the middle, and there are two strands framing the face, reaching down to the knee level\neyes: Orange eyes\nheight: Short\nchest size: Small\npersonality: Quite childish, but she despises being treated like a child and yearns to be respected like her older sister Sunohara Shun.\nRole: Member",
+    "type": "character",
+    "title": "Sunohara Kokona",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "RABBIT Platoon",
+    "value": "A college club styled as a tactical simulation and survival team. Their uniform is Modified uniform with tactical gear, often paired with a hooded jacket. Members consist of Tsukiyuki Miyako, Sorai Saki, Kazekura Moe, and Kasumizawa Miyu",
+    "type": "faction",
+    "title": "Club: RABBIT Platoon",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Tsukiyuki,Miyako",
+    "value": "gender: Female\nhair: thigh-length silver hair with bangs that frame her face, tied by a black ribbon into a little side ponytail.\neyes: Magenta eyes\nheight: Average\nchest size: Medium\npersonality: Takes initiative leading her squad in operations although they tend to not like being bossed around.\nRole: President",
+    "type": "character",
+    "title": "Tsukiyuki Miyako",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Sorai,Saki",
+    "value": "gender: Female\nhair: Bit darker purple, short bobcut with asymmetric bangs across her forehead, and two longer strands framing her face.\neyes: Cyan eyes\nheight: Short\nchest size: Small\npersonality: Often prideful and overconfident, thinking that she can accomplish things without others' help\nRole: Member",
+    "type": "character",
+    "title": "Sorai Saki",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kazekura,Moe",
+    "value": "gender: Female\nhair: brown hair that's tied into low pigtails using hair ties that have two white pom-poms.\neyes: Amber eyes\nheight: Average\nchest size: Large\npersonality: She also loves causing problems regardless of the consequences, including inflicting pain onto herself to an extent.\nRole: member.",
+    "type": "character",
+    "title": "Kazekura Moe",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kasumizawa,Miyu",
+    "value": "gender: Female\nhair: Long hair stretched down to her elbow, she also has a bang that covers all of her foreheads along two sides of her face.\neyes: Light red eyes\nheight: Short\nchest size: Small\npersonality: She is a very shy person and has low self-esteem.\nRole: member",
+    "type": "character",
+    "title": "Kasumizawa Miyu",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Arius Squad",
+    "value": "An unofficial, shadowy college club functioning like a black-ops group. They operate outside the normal system, handling missions with their own ruthless efficiency. Their uniform is Dark uniform with tactical armor pieces. Members consist of Joumae Saori, Hakari Atsuko, Imashino Misaki, and Tsuchinaga Hiyori",
+    "type": "faction",
+    "title": "Club: Arius Squad",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Joumae,Saori",
+    "value": "gender: Female\nhair: long navy blue hair that gradients into an azure blue.\neyes: Pale blue eyes\nheight: Tall\nchest size: Medium\npersonality: A leader would normally have: fierce, strategic, and responsible.\nRole: president",
+    "type": "character",
+    "title": "Joumae Saori",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Hakari,Atsuko",
+    "value": "gender: Female\nhair: lavender colored hair, tied into loose side braids using orange ribbons.\neyes: Dark red eyes\nheight: Average\nchest size: Medium\npersonality: May be very silent, but she has a kind heart among other members in the squad.\nRole: Member",
+    "type": "character",
+    "title": "Hakari Atsuko",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Imashino,Misaki",
+    "value": "gender: Female\nhair: neck-length brown hair in a bob cut hairstyle.\neyes: Brown eyes\nheight: Average\nchest size: Small\npersonality: Calm, enigmatic, and almost otherworldly\nRole: Member",
+    "type": "character",
+    "title": "Imashino Misaki",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Tsuchinaga,Hiyori",
+    "value": "gender: Female\nhair: long teal hair tied off into a side ponytail, with the left eye being covered by her bangs.\neyes: Dull teal eyes\nheight: Short\nchest size: Small\npersonality: Low self-esteem, usually sees things in a negative light\nRole: Member",
+    "type": "character",
+    "title": "Hiyori Tsuchinaga",
+    "description": "",
+    "useForCharacterCreation": false
+  },
+  {
+    "keys": "Kosaka,Wakamo",
+    "value": "gender: Female\nhair: long, dark brown hair that reaches down to her feet.\neyes: Yellow eyes\nheight: Average\nclothes: short black kimono, atop her head are two red fox ears that fade into dark brown. She also has a bushy dark brown fox tail tied with a big white bow at the end, which fades into blue and red.\nchest size: Medium\npersonality: naturally inclined to anarchy and destruction, preferring to cause chaos and rampage wherever she goes. This got her into trouble with Xuanlong Office, Justice Realization Committee, and Prefect Team.",
+    "type": "character",
+    "title": "Kosaka Wakamo",
+    "description": "",
+    "useForCharacterCreation": false
+  }
+]
+
